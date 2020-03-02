@@ -1,0 +1,1 @@
+{"version":3,"sources":["abc.scss"],"names":[],"mappings":"AAEA;EACC,UAHc,EAAA","file":"abc.css","sourcesContent":["$color-red: red;\r\n\r\np {\r\n\tcolor: $color-red;\r\n}\r\n\r\n"]}

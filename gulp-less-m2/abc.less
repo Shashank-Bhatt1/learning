@@ -1,0 +1,18 @@
+.hover-focus(@content) {
+	&:hover, &:focus {
+		@content();
+	}
+}
+
+.includebc() {
+	color: red;
+}
+
+div {
+	p {
+		display: block;
+		.hover-focus({display:none})
+	}
+	.includebc();
+	
+}

@@ -1,0 +1,12 @@
+div {
+  color: red;
+}
+div p {
+  display: block;
+}
+div p:hover,
+div p:focus {
+  display: none;
+}
+
+/*# sourceMappingURL=abc.css.map */
