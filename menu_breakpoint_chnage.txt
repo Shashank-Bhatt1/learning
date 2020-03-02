@@ -1,0 +1,36 @@
+============
+
+Change in navigation.less 
+
+path is vendor/theme/web/css/source/navigation.less
+
+change in two lines for breakpoint 
+
+
+Change in 
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__m) to
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @your_breakpoint)  @your_breakpoint= 991px for example to switch to mobile menu from tablet
+
+
+same way for min breakpoint
+
+Change
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @screen__m) to 
+
+.media-width(@extremum, @break) when (@extremum = 'min') and (@break = @your_breakpoint)
+
+========================================================
+
+Now change specify your breakpoint option inside topmenu.phtml for customizing menu widget with your own breakpoint option
+
+change in ul tag
+
+
+<ul data-mage-init='{"menu":{"responsive":true, "expanded":true, "mediaBreakpoint": "(max-width: 992px)", }}' >
+
+
+you should set the value for mediaBreakpoint same as you set in navigation.less for @your_breakpoint variable
+

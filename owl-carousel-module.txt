@@ -1,0 +1,59 @@
+
+First of all create your custom javascript amd module for using it with requirejs like this
+define([
+    'jquery',
+    'owlCarousel'
+], function($)
+ {
+    return function(config, element) {
+        $(element).owlCarousel(config);
+    };
+});
+=====================
+
+and create the require configuration file for owl carousel and your own module like this
+var config = {
+    map: {
+        '*': {
+            'carousel': 'js/carousel',
+            'owlCarousel': 'js/owl-carousel/owl.carousel'
+        }
+    }
+}
+
+and offcourse this is your carousel file itself that is registered in requirejs
+app/design/frontend/<pakage_name>/<theme_name>/web/js/carousel.js
+
+================
+* How to use *
+Usage on particular element
+
+use the data-mage-init attribute to insert Owl Carousel in a certain element:
+
+<div class="owl-carousel" data-mage-init='{"carousel":{"option": value}}'>
+    <div class="item">Item 1</div>
+    ...
+    <div class="item">Item n</div>
+</div>
+
+===================
+Usage on general elements like those with same classes
+
+use with <script type="text/x-magento-init" />
+
+<div id="owl-carousel" class="owl-carousel">
+    <div class="item">Item 1</div>
+    ...
+    <div class="item">Item n</div>
+</div>
+
+<script type="text/x-magento-init">
+{
+    "#owl-carousel": {
+        "carousel": {"option": value}
+    }
+}
+</script>
+
+=================
+Never rely on usage of scripts to call owl carousel in default_head_blocks.xml

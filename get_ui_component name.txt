@@ -1,0 +1,10 @@
+var registry = require('uiRegistry');
+
+
+var componentName = jQuery('.admin__data-grid-loading-mask').data('component');
+
+
+
+var fieldName = registry.get('widget_recently_viewed.widget_recently_viewed.widget_columns.name');
+
+console.log(fieldName.name);
