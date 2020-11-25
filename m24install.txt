@@ -1,0 +1,115 @@
+Useful links
+
+https://www.elastic.co/guide/en/elasticsearch/reference/current/deb.html#install-deb
+https://www.willandskill.se/en/install-elasticsearch-6-x-on-ubuntu-18-04-lts/
+https://devdocs.magento.com/guides/v2.4/install-gde/prereq/elasticsearch.html#install-prereq-java-ubuntu
+
+
+
+
+
+
+====Magento 2.4 installation======
+
+1.rename lampp directory to lampp72
+
+mv lampp/ lampp72/
+
+
+2.Install xampp downloaded archive for ubuntu. Give permission to archive
+
+sudo chmod 755 xampp-linux-x64-7.4.9-0-installer.run
+
+
+3. Run installer with admin previlages. This will create lampp folder in opt directory
+sudo ./xampp-linux-x64-7.4.9-0-installer.run
+
+
+4. Rename lampp again to approprieate lampp folder e.g. lampp749
+
+
+5. Create symlinks for actual lampp directory. Below command will create lampp symlink for the path of lampp749
+
+sudo ln -s lampp749/ lampp
+
+Remove symlinks
+
+sudo rm -r lampp
+
+
+6.Check the php version by php -v to confirm if symlink gives the required version or not.
+
+Should output 7.4.9 if lampp is symlinked to lampp749 and so on..
+
+
+7. Install the java development kit for elasticsearch
+
+apt-get -y update
+
+apt-get install -y openjdk-8-jdk
+
+
+8. Install the elasticsearch for magento2.4
+
+- wget -qO - https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
+
+- sudo apt-get install apt-transport-https
+
+- echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elastic-7.x.list
+
+- sudo apt-get update && sudo apt-get install elasticsearch
+
+
+9. Start the elasticsearch service
+
+sudo systemctl start elasticsearch.service
+
+
+10. Veryfy that elasticsearch is working
+
+curl -XGET 'localhost:9200/_cat/health?v&pretty'
+
+
+11. Install composer as per this answer.
+
+
+https://askubuntu.com/questions/604522/install-composer-and-configure-with-xampp
+
+-tell composer to take this php path
+sudo curl -s https://getcomposer.org/installer | /opt/lampp/bin/php
+
+-symlink usr path php to opt path php
+sudo ln -s /opt/lampp/bin/php /usr/local/bin/php
+
+- move composer.phar to /usr/local/bin/composer to run globally
+
+- Remove old composer if exists
+sudo apt-get remove composer
+
+
+12. Now install magento from htdocs directory that is made as symlink to /opt/lampp749/htdocs
+(lampp is symlink for lampp749 in opt directory)
+
+sudo composer create-project --repository=https://repo.magento.com/ magento/project-community-edition magento2
+
+
+or take git clone and then run composer install
+
+
+
+==========erros while switching lampp versions and solutions===========
+
+Error.my.cnferror not writable
+
+Solution: chmod 644 /opt/lampp/etc/my.cnf
+
+Error: World-writable config file '/opt/lampp/etc/my.cnf' is ignored
+
+Solution: sudo chmod 755 /opt/lampp/phpmyadmin/config.inc.php
+
+Project frontend Error: session data file is not created by your uid magento 2
+Solution: Delete cookies
+
+
+
+

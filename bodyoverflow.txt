@@ -1,0 +1,186 @@
+
+====Useful links refered when started R&D===========
+https://stackoverflow.com/questions/37713970/ios-css-js-overlay-scroll-but-prevent-body-scroll
+https://codepen.io/jerrylow/pen/yJeyoG
+https://medium.com/@im_rahul/safari-and-position-fixed-978122be5f29
+
+
+
+======Problem statement========
+
+We know that magento itself is providing body scroll lock when modal is opened by adding overflow property to hidden but this solution is not enough when we see in older safari browser. Safari does not prevent scrolling of body anyhow. 
+
+One must apply fixed positioning and full height to body to prevent scrolling of the body and we know that we need to create it on our own way.
+
+
+
+
+======Solution========
+
+
+1. First create javascript mixin for the magento modal widget to extend the core functionality by adding following requirejs-config.js file at Magento_Ui theme level module
+
+var config = {
+	config: {
+        mixins: {
+            'Magento_Ui/js/modal/modal': {
+                'Magento_Ui/js/modal/modal-mixin': true
+            },
+        }
+    }
+}
+
+
+Now as we defined this script, we must add the mixin file at Magento_Ui\web\js\modal\modal-mixin.js and add the below code into it.
+
+
+
+define(['jquery'],function($){
+	'use strict';
+	var scrollTop;
+	
+	return function(targetWidget) {
+		$.widget('mage.modal',targetWidget,{
+			
+			options: {
+				locked: false,
+			},
+
+			openModal: function () {
+	            this.options.isOpen = true;
+	            this.focussedElement = document.activeElement;
+	            this._createOverlay();
+	            this._setActive();
+	            this._setKeyListener();
+	            this.modal.one(this.options.transitionEvent, _.bind(this._setFocus, this, 'end', 'opened'));
+	            this.modal.one(this.options.transitionEvent, _.bind(this._trigger, this, 'opened'));
+	            this.modal.addClass(this.options.modalVisibleClass);
+	            if($('body').css('position') !== 'fixed') {
+	                this._lockBody(this.modal);
+	            }
+	            if (!this.options.transitionEvent) {
+	                this._trigger('opened');
+	            }
+
+	            return this.element;
+        	},
+        	closeModal: function () {
+	            var that = this;
+
+	            this._removeKeyListener();
+	            this.options.isOpen = false;
+	            this.modal.one(this.options.transitionEvent, function () {
+	                that._close();
+	            });
+	            this.modal.removeClass(this.options.modalVisibleClass);
+
+	            if (!this.options.transitionEvent) {
+	                that._close();
+	            }
+	            if(this.options.locked)
+	            	this._unlockBody(this.modal);
+	            
+	            return this.element;
+        	},
+
+        	_lockBody: function(element) {
+	            
+              	scrollTop = window.pageYOffset;
+				
+				$('body').css({
+					'position': 'fixed',
+					'top': `-${window.pageYOffset}px`,
+					'width': '100%'
+				});
+	            $('html').css('scroll-behavior','auto');
+	            this.options.locked = true;
+	        },
+	        
+	        _unlockBody: function(element) {
+	            $('body').css({
+	                 'position': '',
+	                 'top': ''
+	            });
+	            window.scrollTo(0, scrollTop);
+	            $('html').css('scroll-behavior','smooth');
+	            this.options.locked = false;
+	        },
+		})
+
+		return $.mage.modal;
+	}
+})
+
+2. Code explained for lockbody
+
+
+We already have open and close method inside modal widget so we are adding two new methods called _lockBody and _unlockBody to modal and call them on open and close time.
+
+
+The idea behind this is to apply fixed position on body to prevent scroll on iphone but we know that when body is positioned fixed then it will jump to top which is not good ux so we need to prevent it.
+
+- So what we do is to count the current scrolltop of body into one variable called scrollTop.
+
+	scrollTop = window.pageYOffset;
+
+and then when we apply fixed position on body, we are applying negative amount of that earlier stored scrollTop to body element to prevent that jump and keep the balance.
+
+	$('body').css({
+		'position': 'fixed',
+		'top': `-${window.pageYOffset}px`,
+		'width': '100%'
+	});
+
+We need to keep in mind that if we have already applied native css  property scroll-behavior to smooth to create smooth scrolling, then it will go to negative scroll very smoothly which is not expected. So we are temporarily adding below to prevent this.
+	 
+	$('html').css('scroll-behavior','auto'); 
+
+Also, we are storing this state into one widget inner option variable called locked so when we unlock body, then we only do this based on earlier locked state.
+
+	this.options.locked = true;
+
+
+3. Code explained for unlockbody
+
+As you might already gueesed when we clode modal, then we first check if lockbody is true or not and if it is true then we call unlockbody
+
+	if(this.options.locked) {
+	    this._unlockBody(this.modal);
+    }
+
+and we are doing reverse things that we have done during lockbody like remove position and restore original position to prevent jump.
+
+
+	 _unlockBody: function(element) {
+        $('body').css({
+             'position': '',
+             'top': ''
+        });
+        window.scrollTo(0, scrollTop);
+        $('html').css('scroll-behavior','smooth');
+        this.options.locked = false;
+    },
+
+As you can see that scrollTop is the same scroll position that we calculated when locking body element. 
+
+So now we will 
+	- 	Restore original scrolltop to body again
+	
+	-	then apply scroll-behaviour to smooth and as well.
+
+	-	Set lockbody to again false again.
+
+	  window.scrollTo(0, scrollTop);
+	  $('html').css('scroll-behavior','smooth');
+	  this.options.locked = false;
+
+
+
+
+
+So this way we can remove the background body scroll on older iphone version which will improve the magento out of box ux in great way.
+
+
+
+
+
