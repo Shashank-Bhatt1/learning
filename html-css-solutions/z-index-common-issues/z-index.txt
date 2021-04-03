@@ -1,0 +1,5 @@
+- use transform: translate3D instead of just translate. it can solve issue on safari browsers
+
+
+- We can not show parent in front of child. 
+  this will require negative z-index on parent and auto z-index on child then only it will be possible

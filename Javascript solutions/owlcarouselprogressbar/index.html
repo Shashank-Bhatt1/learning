@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="custom.css">
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script type="text/javascript" src="owl.carousel.js"></script>
+	<link rel="stylesheet" type="text/css" href="owl.carousel.css">
+	<link rel="stylesheet" type="text/css" href="owl.theme.default.css">
+</head>
+<body>
+
+	<div class="container">
+	   
+	    <div class="owl-carousel owl-theme">
+	      	<div class="item">
+				<img src="http://placehold.it/850x350" alt="slide">
+			</div>
+			<div class="item">
+				<img src="http://placehold.it/850x350" alt="slide">
+			</div>
+			<div class="item">
+				<img src="http://placehold.it/850x350" alt="slide">
+			</div>
+			<div class="item">
+				<img src="http://placehold.it/850x350" alt="slide">
+			</div>
+			<div class="item">
+				<img src="http://placehold.it/850x350" alt="slide">
+			</div>
+			<div class="item">
+				<img src="http://placehold.it/850x350" alt="slide">
+			</div>
+		</div>
+	    <div class="progress-wrapper">
+	    	<div class="slide-progress_wrap">
+	    		<div class="slide-progress"></div>
+	    	</div>
+	    	<div class="slide-progress_wrap">
+	    		<div class="slide-progress"></div>
+	    	</div>
+	    	<div class="slide-progress_wrap">
+	    		<div class="slide-progress"></div>
+	    	</div>
+	    	<div class="slide-progress_wrap">
+	    		<div class="slide-progress"></div>
+	    	</div>
+	    	<div class="slide-progress_wrap">
+	    		<div class="slide-progress"></div>
+	    	</div>
+	    	<div class="slide-progress_wrap">
+	    		<div class="slide-progress"></div>
+	    	</div>
+	    </div>
+	</div>
+	       
+	
+
+	<script type="text/javascript">
+		$(function() {
+			$('.owl-carousel').owlCarousel({
+				items: 1,
+				loop: true,
+			    autoplay: true,
+				autoplayTimeout: 10000,
+			    onInitialized: startProgressBar,
+			    onTranslate: resetProgressBar,
+			    onTranslated: startProgressBar,
+			    onChange: resetProgressBar,
+			    onChange: startProgressBar
+			});
+
+			function startProgressBar(e) {
+			   
+			  $('.slide-progress_wrap').eq(e.relatedTarget.relative(e.relatedTarget.current())).find('.slide-progress').css({
+			    width: "100%",
+			    transition: "width 10000ms"
+			  });
+			}
+
+			function resetProgressBar() {
+			 $('.slide-progress_wrap').find('.slide-progress').css({
+			    width: "0",
+			    transition: "width 0s"
+			  });
+			}
+		})
+	</script>
+
+</body>
+</html>

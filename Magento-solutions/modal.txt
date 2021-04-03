@@ -1,0 +1,18 @@
+
+
+===Init modal widget and please note to keep style="display:none" initially 
+<div id="addressmodal" style="display:none" data-bind="mageInit: {'Magento_Ui/js/modal/modal': {
+                        'type': 'popup',
+                        'title': 'Enter address manually',
+                        'trigger': '[data-trigger=trigger]',
+                        'modalClass': 'confirm',
+                        'buttons': []
+                    }}" class="field-container hiddenaddressfields">
+
+
+
+=====anyone using two or more modal in sequence then make sure to use this code.========
+	assuming here self = firstmodal
+	self.modal.on(self.options.transitionEvent,function(){
+		$('.secondmodal').modal(Option);
+	})

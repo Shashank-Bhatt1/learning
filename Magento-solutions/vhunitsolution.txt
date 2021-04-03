@@ -1,5 +1,7 @@
 https://css-tricks.com/the-trick-to-viewport-units-on-mobile/
 
+https://developers.google.com/web/updates/2016/12/url-bar-resizing
+
 
 
 // First we get the viewport height and we multiple it by 1% to get a value for a vh unit

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<link rel="stylesheet" href="swiper-bundle.css">
+	<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+	<style type="text/css">
+		.swiper-demo-wrapper{
+		    width: 600px;
+		    height: 300px;
+		    overflow: hidden;
+		    margin: auto;
+		    
+		}
+		.swiper-container {
+	      width: 100%;
+	      height: 100%;
+	    }
+
+	    .swiper-slide {
+	      text-align: center;
+	      font-size: 18px;
+	      background: #fff;
+
+	      /* Center slide text vertically */
+	      display: -webkit-box;
+	      display: -ms-flexbox;
+	      display: -webkit-flex;
+	      display: flex;
+	      -webkit-box-pack: center;
+	      -ms-flex-pack: center;
+	      -webkit-justify-content: center;
+	      justify-content: center;
+	      -webkit-box-align: center;
+	      -ms-flex-align: center;
+	      -webkit-align-items: center;
+	      align-items: center;
+	    }
+	</style>
+	
+
+	<!-- <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"> -->
+</head>
+<body>
+	
+	<div class="swiper-demo-wrapper">
+		<div class="swiper-container-1 swiper-container">
+    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+	        <!-- Slides -->
+	        <div class="swiper-slide">Slide 1</div>
+	        <div class="swiper-slide">Slide 2</div>
+	        <div class="swiper-slide">Slide 3</div>
+	        ...
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+
+	    <!-- If we need navigation buttons -->
+	    <div class="swiper-button-prev"></div>
+	    <div class="swiper-button-next"></div>
+
+	    
+	    
+	</div>
+	</div>
+	<div class="swiper-demo-wrapper">
+		<div class="swiper-container-2 swiper-container">
+    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+	        <!-- Slides -->
+	        <div class="swiper-slide">Slide 1</div>
+	        <div class="swiper-slide">Slide 2</div>
+	        <div class="swiper-slide">Slide 3</div>
+	        ...
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+
+	    <!-- If we need navigation buttons -->
+	    <div class="swiper-button-prev"></div>
+	    <div class="swiper-button-next"></div>
+
+	    
+	</div>
+	</div>
+
+	<div class="swiper-demo-wrapper">
+		<div class="swiper-container-3 swiper-container">
+    <!-- Additional required wrapper -->
+	    <div class="swiper-wrapper">
+	        <!-- Slides -->
+	        <div class="swiper-slide">Slide 1</div>
+	        <div class="swiper-slide">Slide 2</div>
+	        <div class="swiper-slide">Slide 3</div>
+	        ...
+	    </div>
+	    <!-- If we need pagination -->
+	    <div class="swiper-pagination"></div>
+
+	    <!-- If we need navigation buttons -->
+	    <div class="swiper-button-prev"></div>
+	    <div class="swiper-button-next"></div>
+
+	    
+	</div>
+	</div>
+
+
+
+	
+
+	<script src="swiper-bundle.js"></script>
+	<script type="text/javascript">
+		window.swiperController;
+
+		var swiper1 = new Swiper('.swiper-container-1', {
+			  // Optional parameters
+			slidesPerView: 'auto',
+			loop: true,
+			// If we need pagination
+			pagination: {
+				el: '.swiper-pagination',
+				clickable: true
+			},
+
+			// Navigation arrows
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			},
+			on: {
+		    	touchStart: function (swiper,event) {
+			     window.swiperController = swiper
+			    },
+			    slideChangeTransitionStart: function(swiper) {
+			    	if (window.swiperController == swiper) {
+			    		
+			    	}
+			    },
+			    slideChangeTransitionEnd: function(swiper) {
+
+			    }
+		  	},
+
+		
+
+		});
+
+		var swiper2 = new Swiper('.swiper-container-2', {
+			  // Optional parameters
+			slidesPerView: 'auto',
+			loop: true,
+			// If we need pagination
+			pagination: {
+				el: '.swiper-pagination',
+			},
+
+			// Navigation arrows
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			}
+
+		})
+
+		var swiper3 = new Swiper('.swiper-container-3', {
+			  // Optional parameters
+			slidesPerView: 'auto',
+			loop: true,
+			// If we need pagination
+			pagination: {
+				el: '.swiper-pagination',
+			},
+
+			// Navigation arrows
+			navigation: {
+				nextEl: '.swiper-button-next',
+				prevEl: '.swiper-button-prev',
+			},
+			
+
+		})
+		
+
+
+
+		
+
+		swiper1.controller.control = [swiper2,swiper3];
+		swiper2.controller.control = [swiper1,swiper3];
+		// swiper3.controller.control = [swiper1,swiper2];
+		
+
+		
+
+	</script>
+
+</body>
+</html>

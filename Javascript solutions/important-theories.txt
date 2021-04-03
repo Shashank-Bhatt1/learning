@@ -1,0 +1,4 @@
+===========AMD UMD COMMON JS=================
+
+https://simonsmith.io/writing-amd-compatible-plugins-for-jquery
+https://www.davidbcalhoun.com/2014/what-is-amd-commonjs-and-umd/

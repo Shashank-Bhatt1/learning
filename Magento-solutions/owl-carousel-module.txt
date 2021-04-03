@@ -57,3 +57,45 @@ use with <script type="text/x-magento-init" />
 
 =================
 Never rely on usage of scripts to call owl carousel in default_head_blocks.xml
+
+
+===owl carousel stacking images solution====
+
+before owl carousel is made, add main parent display flex and  overflow-x: hidden; 
+and set same width to their immediate children that will be applied to owl-items from js after slider loads
+
+and most importantly, flex-shrink and flex-grow should be zero to immediate children before slider loads.
+
+
+here #most-popular-products-slider is main parent which will also have owl-carousel class
+
+and elements with .item class are it's direct children which will wrapped later into owl-item 
+
+#most-popular-products-slider {
+    display: flex;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    overflow-x: hidden;
+}
+
+#most-popular-products-slider > .item {
+    width: 50%;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+@media (min-width: 768px) {
+  #most-popular-products-slider > .item {
+    width: 33.33%;
+  }  
+}
+@media (min-width: 992px) {
+  #most-popular-products-slider > .item {
+    width: 25%;
+  }  
+}
+@media (min-width: 1200px) {
+  #most-popular-products-slider > .item {
+    width: 20%;
+  }  
+}

@@ -1,0 +1,3 @@
+https://www.digitalocean.com/community/tutorials/how-to-install-node-js-on-ubuntu-18-04
+https://stackoverflow.com/questions/55763428/react-native-error-enospc-system-limit-for-number-of-file-watchers-reached
+https://stackoverflow.com/questions/37986800/node-sass-couldnt-find-a-binding-for-your-current-environment

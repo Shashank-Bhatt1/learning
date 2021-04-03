@@ -1,0 +1,59 @@
+1. Define helper at modules helper directory where.
+namespace = path to module helper
+class which will extend  \Magento\Framework\App\Helper\AbstractHelper like below
+
+	namespace Brightowl\NhsSignup\Helper;
+	class Test extends \Magento\Framework\App\Helper\AbstractHelper {}
+
+
+2. Also add storemanager parameter in construct function which will define $storeManager as default magento storemanager
+
+	public $storeManager;
+	public function __construct(
+	    \Magento\Framework\App\Helper\Context $context,
+	    \Magento\Store\Model\StoreManagerInterface $storeManager
+	) {
+	    $this->storeManager = $storeManager;
+	    parent::__construct($context);
+	}
+
+
+3. Define getMediaUrl which will be public
+
+	public function getMediaUrl(){
+	    return $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+	}
+
+
+so final helper will be like this
+
+
+	<?php
+	namespace Brightowl\NhsSignup\Helper;
+
+	class Test extends \Magento\Framework\App\Helper\AbstractHelper
+	{
+	    public $storeManager;
+	    public function __construct(
+	        \Magento\Framework\App\Helper\Context $context,
+	        \Magento\Store\Model\StoreManagerInterface $storeManager
+	    ) {
+	        $this->storeManager = $storeManager;
+	        parent::__construct($context);
+	    }
+
+	    public function getMediaUrl(){
+	        return $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+	    }
+	}
+
+
+
+4. Use in phtml. First call defined helper where it is define. here it is at Brightowl\NhsSignup\Helper\Test so
+
+	$testHelper = $this->helper('Brightowl\NhsSignup\Helper\Test');
+
+
+5.Finally call getMediaUrl on that helper to get the media url.
+
+	echo $testHelper->getMediaUrl(); die;

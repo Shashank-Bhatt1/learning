@@ -1,0 +1,32 @@
+Follow this collapsible code to activate/deactivate collapsible on mediaquery change where collapsible-init is the parent of child title and content
+
+
+<div class="collapsible-init">
+	<div data-role="title">This is the toggle title</div>
+	<div data-role="content">This is the toggle content</div>
+</div>
+
+<script type="text/javascript">
+require(['jquery','matchMedia'], function($,mediaCheck) {
+
+mediaCheck({
+	media: '(max-width: 767px)',
+	entry: function() {
+		if($('.collapsible-init').data('collapsible')) {
+			//$(".collapsible-init").collapsible("activate");
+			$('.collapsible-init').collapsible('enable').collapsible('deactivate');
+		} else {
+    		$('.collapsible-init').collapsible({
+    		})
+		}
+	},
+	exit: function() {
+		if($('.collapsible-init').data('collapsible')) {
+			//$(".collapsible-init").collapsible("activate");
+			$('.collapsible-init').collapsible('disable');
+		}
+	}       
+});
+
+})
+</script>

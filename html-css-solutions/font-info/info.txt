@@ -1,0 +1,10 @@
+To view the content(the characters that font currently have) of font
+https://fontdrop.info/
+
+
+===To subset font family for specific characters====
+https://everythingfonts.com/subsetter
+
+
+====To view all unicode around the worlds====
+https://unicode-table.com/

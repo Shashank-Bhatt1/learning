@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Responsive images demo html</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<style type="text/css">
+		img {
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+
+	<header>
+		
+		<img src="cso_400.jpg" srcset="cso_1366.jpg 1366w, cso_800.jpg 800w, cso_400.jpg 400w"  sizes="(min-width:1440px) 1400px, (min-width:768px) 720px,(min-width:480px) 400px"> 
+
+		<!-- sizes attribute defines slot sizes for different media queries, and the srcset defines multiple sources for the image.Now the first media condition inside sizes will evaluate and slot size beside it will be selected.
+
+		For example if (min-width:1440px) runs to true, rest of the queries will be ignored and slot size for this condition is 1400px therefore it's nearest size image (in this case cso_1366.jpg because it's size is 1366w means 1366px ) will be selected from srcset attribute. -->
+
+		
+		<!-- ******  Use of picture element ***** -->
+
+		<!-- The above example can also be implemented with the use of the picture element as below.The picture element consists of multiple source elements same as audio and video elements.Source element contain media and srcset attribute.If the media condition of first source is true, then rest of the sources will be ignored.  -->
+
+		<!-- E.g. If screen size is 1920 then first media of first sources returns to true and therefore image cso_1366.jpg will be displayed.Also note that we can use srcset and sizes attribites (to include multiple images in source element) same as in case of img element.But if we use media attribute in source, there is no need to use sizes attribute in it. -->
+
+
+		<picture>
+			<source media="(min-width:1440px)" srcset="cso_1366.jpg 1366w" type="image/jpeg">
+			<source media="(min-width:768px)" srcset="cso_800.jpg 800w" type="image/jpeg">
+			<source media="(min-width:480px)" srcset="cso_400.jpg 400w" type="image/jpeg">
+			<img src="cso_1366.jpg" alt="cso">
+		</picture>
+
+		
+
+
+
+
+		<!-- ******  Use of picture element in resolution switching ***** -->
+
+
+		<!-- With the help of picture element we can use srcset to display multiple resolution images for retina display of mobile.This syntax of srcset will contain resoultion followed by x discriptor  -->	
+
+
+		<!-- As in this example if screen size is below 767px(to target mobile devices), we can define multiple images for retina display.If resolution of mobile is 3x then cso_1366.jpg image will be displayed. i.e in iphonex. But then we have to define image size using css as below -->
+
+		<!-- <style type="text/css">
+			
+		img {
+			width:320px;
+		}
+		</style> -->
+
+
+		<picture>
+			<source media="(max-width:767px)" srcset="cso_1366.jpg 3x, cso_800.jpg 1.5x, cso_400.jpg" type="image/jpeg">
+			<img src="cso_1366.jpg" alt="cso">
+		</picture>
+			
+
+
+	</header>
+
+</body>
+</html>
