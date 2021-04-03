@@ -1,0 +1,60 @@
+- https://www.npmjs.com/package/scroll-snap-arrows
+- https://css-tricks.com/almanac/properties/s/
+  scroll-margin/#:~:text=scroll%2Dmargin%20is%20used%20to,element%20will%20be%20snapped%20to).&text=If%20all%20elements%20have%20the,all%20elements%20within%20the%20container.
+
+- https://css-tricks.com/practical-css-scroll-snapping/
+
+
+
+Scroll snapping is used by setting the scroll-snap-type property on a container element and the scroll-snap-align property on elements inside it. When the container element is scrolled, it will snap to the child elements you’ve defined. In its most basic form, it looks like this:
+
+<div class="container">
+  <section class="child"></section>
+  <section class="child"></section>
+  <section class="child"></section>
+  <p>...</p>
+</div>
+
+<style type="text/css">
+	.container {
+	  scroll-snap-type: y mandatory;
+	}
+
+	.child {
+	  scroll-snap-align: start;
+	}
+
+</style>
+
+
+
+
+
+===below js code will add arrows to scroll-snap points===
+
+
+
+<div class="scrollable-element"
+  data-scroll-snap-arrow-left=".left-button"
+  data-scroll-snap-arrow-right=".right-button"
+  data-scroll-snap-arrow-up=".up-button"
+  data-scroll-snap-arrow-down=".down-button"
+>
+  ...
+</div>
+
+
+<button class="left-button">⏪</button>
+<button class="right-button">⏩</button>
+<button class="up-button">⏫</button>
+<button class="down-button">⏬</button>
+
+
+
+<script>
+const arrows = new ScrollSnapArrows( document.querySelector( '.scrollable-element' ) );
+arrows.addArrow( 'left', document.querySelector( '.left-button' ) );
+arrows.addArrow( 'right', document.querySelector( '.right-button' ) );
+arrows.addArrow( 'up', document.querySelector( '.up-button' ) );
+arrows.addArrow( 'down', document.querySelector( '.down-button' ) );
+</script> 

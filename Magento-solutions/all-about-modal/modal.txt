@@ -1,3 +1,13 @@
+Common issues
+
+- Modal z-index is not a function
+https://magento.stackexchange.com/questions/276256/magento-2-2-uncaught-typeerror-this-modal-zindex-is-not-a-function/326794#326794
+
+- Clicking outside modals are not closing
+https://magento.stackexchange.com/questions/153748/how-to-close-modal-popup-by-clicking-outside-the-modal-content-in-magento-2/325782#325782
+
+
+
 
 
 ===Init modal widget and please note to keep style="display:none" initially 

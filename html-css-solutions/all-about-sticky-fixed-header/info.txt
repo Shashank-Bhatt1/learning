@@ -1,0 +1,44 @@
+https://elad.medium.com/css-position-sticky-how-it-really-works-54cd01dc2d46
+
+https://www.designcise.com/web/tutorial/how-to-fix-issues-with-css-position-sticky-not-working
+
+
+
+- CSS position sticky has two main parts, sticky item & sticky container.
+
+
+Sticky Item — is the element that we defined with the position: sticky styles. The element will float when the viewport position matches the position definition, for example: top: 0px .
+
+
+.some-component{
+    position: sticky;
+    top: 0px;
+}
+
+Sticky Container —is the HTML element which wraps the sticky item. This is the maximum area that the sticky item can float in.
+
+
+
+When you define an element with position: sticky you’re automatically defining the parent element as a sticky container!
+This is very important to remember! The container is the scope of the sticky item, and the item can’t get out of its sticky container.
+
+
+==Important note====
+
+1. When the sticky item is the only child element in a sticky container, it will not stick.
+
+2. When header is sticky element with top:0 and you need gap(offset) for all other children from header then use scroll-padding-top property on html and body element.
+
+
+
+html, body {
+    height: 100%;
+    scroll-padding-top: 150px; //assuming the height of header is 150px
+}
+
+with the above code, when we use internal link hashid in the page, all page hashes will take the offset into account and jump to 150px below the page top.
+
+
+
+
+
