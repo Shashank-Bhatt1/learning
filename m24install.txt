@@ -6,6 +6,15 @@ https://devdocs.magento.com/guides/v2.4/install-gde/prereq/elasticsearch.html#in
 
 
 
+https://devdocs.magento.com/guides/v2.4/config-guide/multi-site/ms_websites.html
+
+https://devdocs.magento.com/guides/v2.4/config-guide/multi-site/ms_apache.html
+
+https://en.wikipedia.org/wiki/Hosts_(file)#Location_in_the_file_system
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-18-04-quickstart
+
+
 
 
 
@@ -109,6 +118,28 @@ Solution: sudo chmod 755 /opt/lampp/phpmyadmin/config.inc.php
 
 Project frontend Error: session data file is not created by your uid magento 2
 Solution: Delete cookies
+
+
+
+
+
+==========For magento 2.4.2, install sodium extension======
+
+
+=> echo "export PATH=/opt/lampp/bin/pecl:$PATH" >> ~/.profile
+
+=> sudo apt-get install autoconf
+
+=> which autoconf
+
+=> #export PHP_AUTOCONF=/usr/bin/autoconf
+
+=> sudo apt install libsodium-dev
+
+=> sudo /opt/lampp/bin/pecl install -f libsodium
+
+=> Verify the sodium
+php -i | grep sodium
 
 
 
