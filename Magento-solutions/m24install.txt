@@ -120,10 +120,28 @@ Project frontend Error: session data file is not created by your uid magento 2
 Solution: Delete cookies
 
 
+Error: /opt/lampp/bin/mysql.server: 264: kill: No such process
+Solution: 
+=>	Take ownership of lampp/var/mysql folder to mysql user and group
+	sudo chown -R mysql:mysql /opt/lampp/var/mysql/
 
+=>	Set correct ownership of /opt/lampp/temp folder and then set proper permission
+	sudo chown -R daemon:daemon /opt/lampp/temp
+	sudo chmod -R 775 /opt/lampp/temp
+
+=>	Set correct ownership of /opt/lampp/phpmyadmin/tmp folder and then set proper permission
+	sudo chown -R root:daemon /opt/lampp/phpmyadmin/tmp
+	sudo chmod -R 777 /opt/lampp/phpmyadmin/tmp
 
 
 ==========For magento 2.4.2, install sodium extension======
+
+
+MOST IMPORTANT TO REMOVE PHP AS SERVICE
+
+sudo apt-get purge php7.2 //replace php7.2 with proper php version number you want to remove
+sudo apt autoremove
+
 
 
 => echo "export PATH=/opt/lampp/bin/pecl:$PATH" >> ~/.profile
@@ -140,6 +158,16 @@ Solution: Delete cookies
 
 => Verify the sodium
 php -i | grep sodium
+
+
+
+
+
+====market place credentials====
+
+
+Public key: fc79d00aaf41a138fd9a5b223b570f09
+Private Key: 5d41344c34b0d16fd5b6057d93f65720
 
 
 
