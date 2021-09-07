@@ -1,0 +1,29 @@
+position bottom of tooltip with the top of container(tooltip parent)
+
+$('.hasTooltip').tooltip({
+    position:{ my: "bottom",  at: "top"},
+    tooltipClass: "custom-tooltip-styling"
+});
+
+
+/////you can do anything in css////
+
+.custom-tooltip-styling {
+    background: #000;
+    border-color: #000;
+    color: #fff;
+    border-radius: 3px;
+    padding:  6px 10px;
+    max-width: 250px;
+}
+
+.custom-tooltip-styling:after {
+    content:  "";
+    position:  absolute;
+    border-style: solid;
+    border-width: 6px;
+    bottom: -12px;
+    border-color: black transparent transparent transparent;
+    left: 50%;
+    margin-left: -6px;
+}

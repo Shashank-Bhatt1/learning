@@ -1,0 +1,4 @@
+https://codepen.io/legeoffrey/pen/EjeWKw
+
+here value of stroke-dasharray="502.4" can be obtained using 2  pie  radius (80)
+

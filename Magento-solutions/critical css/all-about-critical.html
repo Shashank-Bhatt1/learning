@@ -1,0 +1,58 @@
+Magento gives opportunity to append css in head so called critical css
+
+
+
+For this purpose we should have critical.css in web/css folder at theme level
+
+
+We can generate critical css with this nice gulp plugin. Grunt also has plugin available called grunt-critical
+
+gulp.task('critical', async function (cb) {
+  critical.generate({
+      inline: true,
+      base: pubcssdir,
+      src: 'http://local.chemist-4-u.com',
+      dimensions: [{
+        width: 1440,
+        height: 800
+      }],
+      target: {
+        css:  './critical.css',
+      },
+      extract:false,
+      ignore: ['@font-face']
+  });
+});
+
+
+But this will only generate on critical css which is not for all pages so for multiple critical css we can do looping like this for supporting multiple pages.
+
+https://github.com/addyosmani/critical/issues/215
+
+
+var HostUrl= 'http://example.com/';
+
+var UrlForGeneratingCriticalCss = {
+    homepage: ['home'
+    ],
+    category-pages:['category-1','category-2'],
+    blog-pages:['blog','blog-inner'],
+};
+
+gulp.task('criticalloop', function () {
+    for (var key in UrlForGeneratingCriticalCss) {
+        var bundle = key;
+
+        for(var EachUrl in UrlForGeneratingCriticalCss[bundle])
+        {
+           var TargetUrl = HostUrl+UrlForGeneratingCriticalCss[bundle][EachUrl];
+           var outputCssName = './css/critical-'+UrlForGeneratingCriticalCss[bundle][EachUrl]+'.css';
+           critical.generate({
+                src: TargetUrl,
+                dest: outputCssName,
+                minify: true,
+                ignore: ['@font-face',/url\(/]
+            });
+        }
+    }
+});

@@ -1,0 +1,53 @@
+======git fetch===
+
+git fetch origin <branch_name> (to take fetch branch from repo without merge so then we can checkout to that branch)
+
+git fetch --all(to fetch everything from repo)
+
+
+====git merge===========
+
+git merge <first_branch> <second_branch> <third_branch> ....(for multiple branches into first branch)
+
+git merge <branch_name> (to merge your local branch with yyour current branch)
+
+git merge <branch_name> --no-edit (to avoid commit message)
+
+git merge --abort (in case anything went wrong and you dont know what to do with other dev files)
+
+git merge --continue (to continue merge after resolving conflicts)
+
+
+===git checkout==
+
+git checkout <file_name_with_dir_or_only_dir> (revert current changes on files/directory since last commit)
+
+eg,git checkout --theirs <file_name_with_dir> (to completely revert file with theirs changes or --ours for our changes)
+
+git checkout origin/branch <file_path_with_dir> (take particular files from branch and add them to current staging list)
+
+git checkout <branch_name> (move to that branch)
+
+git checkout -b <new_branch_name> (create new branch from current branch)
+
+
+
+===git stash====
+
+basically three commands
+
+git stash push -m <stash_message_why_you_stash> <file_path_with_dir>
+
+git stash list (to view current stashes)
+
+git stash show stash@{0} (to show stash@{0})
+
+git stash apply stash@{0} (to apply stash at current branch without deleting from stash list)
+
+git stash pop stash@{0} (to apply stash at current branch and deleting from stash list)
+
+
+
+
+
+

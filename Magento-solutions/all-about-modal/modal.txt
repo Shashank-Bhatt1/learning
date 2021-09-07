@@ -26,3 +26,13 @@ https://magento.stackexchange.com/questions/153748/how-to-close-modal-popup-by-c
 	self.modal.on(self.options.transitionEvent,function(){
 		$('.secondmodal').modal(Option);
 	})
+
+
+
+video autoplay
+
+Iframe Video Autoplay policy (wef 2018 chrome v.71)
+https://developer.chrome.com/blog/autoplay/
+
+After above is done, jquery for autoplay
+$("iframe#ytplayer").attr("src", $("iframe#ytplayer").attr("src").replace("autoplay=0", "autoplay=1"));

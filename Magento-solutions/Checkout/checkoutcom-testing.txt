@@ -1,0 +1,12 @@
+
+=> To be able to test checkout.com module, we can use the test cards available at this url
+https://docs.checkout.com/testing/test-card-numbers
+
+=> While providing 3ds2 authentication default password is Checkout1! as per this guide information
+https://docs.checkout.com/testing/3d-secure-testing
+
+=> To test google pay, we can use the test cards available by joining this group 
+https://groups.google.com/g/googlepay-test-mode-stub-data
+
+More information about google pay at
+https://developers.google.com/pay/api/android/guides/resources/test-card-suite

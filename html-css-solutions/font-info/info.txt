@@ -8,3 +8,8 @@ https://everythingfonts.com/subsetter
 
 ====To view all unicode around the worlds====
 https://unicode-table.com/
+
+
+===svg font awesome 5 pro========
+
+https://github.com/seanyeh/fontawesome-svgs
