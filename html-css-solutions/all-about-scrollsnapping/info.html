@@ -9,19 +9,28 @@
 Scroll snapping is used by setting the scroll-snap-type property on a container element and the scroll-snap-align property on elements inside it. When the container element is scrolled, it will snap to the child elements you’ve defined. In its most basic form, it looks like this:
 
 <div class="container">
-  <section class="child"></section>
-  <section class="child"></section>
-  <section class="child"></section>
-  <p>...</p>
+  <section class="child">1</section>
+  <section class="child">2</section>
+  <section class="child">3</section>
+  <section class="child">4</section>
+  <section class="child">5</section>
 </div>
 
 <style type="text/css">
 	.container {
-	  scroll-snap-type: y mandatory;
+	  scroll-snap-type: x mandatory;
+    display: flex;
+    overflow: auto;
 	}
 
 	.child {
 	  scroll-snap-align: start;
+    width:  33.33%;
+    float: left;
+    padding: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    flex-shrink: 0;
 	}
 
 </style>

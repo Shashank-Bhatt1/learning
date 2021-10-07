@@ -1,0 +1,24 @@
+Use of domparser interface provided by javascript document level
+
+https://developer.mozilla.org/en-US/docs/Web/API/DOMParser
+
+
+https://stackoverflow.com/questions/1912501/unescape-html-entities-in-javascript
+
+
+
+===usage=====
+
+
+function htmlDecode(input) {
+  var doc = new DOMParser().parseFromString(input, "text/html");
+  return doc.documentElement.textContent;
+}
+
+console.log(  htmlDecode("&lt;img src='myimage.jpg'&gt;")  )    
+// "<img src='myimage.jpg'>"
+
+console.log(  htmlDecode("<img src='dummy' onerror='alert(/xss/)'>")  )  
+// ""
+
+

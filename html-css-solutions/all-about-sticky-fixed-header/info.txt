@@ -41,4 +41,41 @@ with the above code, when we use internal link hashid in the page, all page hash
 
 
 
+==== ultimate problem with sticky header and then we can use this patch===
+
+Use position sticky as default and only apply fixed during scroll start (so that during page load ugly jump issues or overlap issues does not occur)
+
+
+<script type="text/javascript">
+    require(['jquery','underscore'],function($,_){
+        // $(window).on('scroll',_.debounce(function(){
+
+        // },100))
+        var headerHeightWithUsp = $('.itl-header').innerHeight(); //to prevent jurk in mobile
+        $('body,html').css('scroll-padding-top',headerHeightWithUsp + 10);
+        $(window).on('scroll',function(){
+            if($(this).scrollTop() > 0) {
+                $('.itl-header__container').addClass('sticky');
+                $('.itl-header__bar').addClass('sticky');
+                $('.itl-header').addClass('fixed');
+                $('body').css('padding-top',headerHeightWithUsp)
+            } else {
+                $('.itl-header__container').removeClass('sticky');
+                $('.itl-header__bar').removeClass('sticky')
+                $('.itl-header').removeClass('fixed');
+                $('body').css('padding-top',0)
+            }
+        })
+        $('.search-toggle').on('click',function() {
+            if ($('.itl-header__container').hasClass('sticky')) {
+                $('.field.search').toggleClass('hidden');
+            }
+        })
+    })
+</script>
+
+
+
+
+
 

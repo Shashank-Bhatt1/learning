@@ -1,0 +1,60 @@
+https://web.dev/content-visibility/
+https://developers.google.com/web/updates/2016/06/css-containment
+
+https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility
+
+
+==css contain propery can have one of the below 4 values===
+
+size: Size containment on an element ensures that the element's box can be laid out without needing to examine its descendants. This means we can potentially skip layout of the descendants if all we need is the size of the element.
+
+layout: Layout containment means that the descendants do not affect the external layout of other boxes on the page. This allows us to potentially skip layout of the descendants if all we want to do is lay out other boxes.
+
+style: Style containment ensures that properties which can have effects on more than just its descendants don't escape the element (e.g. counters). This allows us to potentially skip style computation for the descendants if all we want is to compute styles on other elements.
+
+
+paint: Paint containment ensures that the descendants of the containing box don't display outside its bounds. Nothing can visibly overflow the element, and if an element is off-screen or otherwise not visible, its descendants will also not be visible. This allows us to potentially skip painting the descendants if the element is offscreen.
+
+
+=====content-visibility====
+
+
+content-visibility: hidden  (The element skips its contents. The skipped contents must not be accessible to user-agent features, such as find-in-page, tab-order navigation, etc., nor be selectable or focusable. This is similar to giving the contents display: none.)
+
+content-visibility: visible (No effect. The element’s contents are laid out and rendered as normal.)
+
+content-visibility: auto (act as hidden to prevenr layout and style calculation on page load and only render when content is entered viewport)
+
+
+
+
+
+=====contain-intrinsic-size(for estimated size)===========
+
+
+content-visibility is auto it will also apply size containment fopr the element but as per the definition of size containment, its size will be zero and not affected by its children so it is necessary to define initial estimated size.
+
+contain-intrinsic-size, which effectively specifies the natural size of the element if the element is affected by size containment. In our example, we are setting it to 1000px as an estimate for the height and width of the sections.
+
+
+this property can take initial value of size incase when content is hidden but to calculate its estimated rendering size
+
+
+==========Using hidden to manually manage visibility.====================
+
+<style>
+.hidden {
+  content-visibility: hidden;
+  /* when hidden, we want the element to size as if it had one child of 0x500px size */
+  contain-intrinsic-size: 0 500px;
+}
+.visible {
+  content-visibility: visible;
+  /* this is here to avoid layout shift when switching between .hidden and .visible */
+  contain: style layout paint;
+}
+
+<div class=hidden>...
+<div class=visible>...
+<div class=hidden>...
+<div class=hidden>...

@@ -1,0 +1,30 @@
+==== renaming git local/remote branch=====
+
+=>rename local if in same branch
+
+git branch -m new-name
+
+if not in same branch then from other branch
+
+git branch -m old-name new-name
+
+
+
+=>Delete branch of old name from remote repo
+
+git push origin --delete old-name
+
+
+=>Finally, push the branch with the correct name, and reset the upstream branch:
+
+git push origin -u new-name
+
+
+=>Alternatively, you can overwrite the remote branch with a single command: 
+(this command delete old one and pushes new one with new name but still below mentioned resetting the upstream command is required)
+
+git push origin :old-name new-name
+
+
+=>Resetting the upstream branch is still required:
+git push origin -u new-name

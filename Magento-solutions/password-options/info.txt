@@ -1,0 +1,8 @@
+=> forgot password template is password_reset_confirmation.html in magento customer module
+This email is used when we press forgot password in login page and enter the email and press reset button
+
+=> Reset password template is password_reset.html in magento customer module
+This email is used when customer changes password from account section area(not via link from email).
+
+=> Remind password template is password_new.html in magento customer module
+This email is used when administrator creates customer from backend to give them ability to set their first password to use frontend.

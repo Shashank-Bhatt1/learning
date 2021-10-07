@@ -1,0 +1,15 @@
+https://stackoverflow.com/questions/6421966/css-overflow-x-visible-and-overflow-y-hidden-causing-scrollbar-issue
+
+
+
+=====As per the draft of w3org=======
+
+The computed values of ‘overflow-x’ and ‘overflow-y’ are the same as their specified values, except that some combinations with ‘visible’ are not possible: if one is specified as ‘visible’ and the other is ‘scroll’ or ‘auto’, then ‘visible’ is set to ‘auto’. The computed value of ‘overflow’ is equal to the computed value of ‘overflow-x’ if ‘overflow-y’ is the same; otherwise it is the pair of computed values of ‘overflow-x’ and ‘overflow-y’.
+
+x       y       computed value(overflow)
+visible visible visible
+hidden  visible hidden
+visible hidden  hidden
+visible auto    auto
+auto    visible auto
+auto    auto    auto
