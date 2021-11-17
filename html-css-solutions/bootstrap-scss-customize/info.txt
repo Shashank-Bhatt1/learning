@@ -1,0 +1,68 @@
+=> To customize bootstrap and only use the needed classes you would need these files. This will give you the needed things like grid and utility classes
+to get thee job done.
+
+@import "functions";
+@import "variables";
+@import "mixins";
+
+@import "grid";
+
+@import "transitions";
+
+@import "utilities";
+
+
+= > To override variables in scss, you would need to insert your scss before bootstrap variables(not after) so that your own variables are already defined before !default flag in bootstrap scss becomes effective. This is general for overriding scss variables.
+
+
+=> To override the default bootstrap breakpoints, we can override the below mentioned variables.
+
+
+=> this variable is responsible for defining breakpoint
+
+$grid-breakpoints: (
+	xs: 0,
+	sm: 576px,
+	md: 768px,
+	lg: 1025px,
+	xl: 1200px,
+	xxl: 1400px
+);
+
+
+=> this variable is responsible for defining fixed width container sizes at above breakpoint
+
+$container-max-widths: (	
+  	sm: 540px,
+    md: 720px,
+    lg: 960px,
+    xl: 1140px,
+    xxl: 1310px
+);
+
+
+=========variable gap bootstrap columns===============
+
+=> this scss code produces the variable gap(gutter) classes between bootstrap columns.
+
+use classes like is-0, is-1 along with row class to have different amount of gaps betweem columns. 
+
+.row {
+	--columnGap: 15px;
+    &:not(.no-gutters) {
+        margin-left: calc(-1 * var(--columnGap));
+        margin-right: calc(-1 * var(--columnGap));
+        [class|=col] {
+          padding-left: var(--columnGap);
+          padding-right: var(--columnGap);
+  	    }
+    }
+  	
+
+  	@for $i from 0 through 8 {
+      	&.is-#{$i} {
+        	--columnGap: #{$i * 0.25rem}
+    	}  
+	}
+}
+  
