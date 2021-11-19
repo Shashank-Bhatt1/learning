@@ -1,0 +1,20 @@
+====other important links===========
+
+
+https://stackoverflow.design/email/base/mso/#ghost-tables
+
+https://stackoverflow.design/email/guidelines/design-best-practices/
+https://litmus.com/community/discussions/396-conditional-code-for-outlook
+
+
+
+the code for all outlook
+
+
+<!--[if (gte mso 9)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:transparent;"><tr><td align="center"><![endif]-->
+<div class="col num12">
+<!-- whateveremail content bla bla-->
+</div>
+<!--[if (gte mso 9)|(IE)]></td></tr></table></td></tr></table><![endif]-->
+
+
