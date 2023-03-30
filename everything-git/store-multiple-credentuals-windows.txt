@@ -1,0 +1,11 @@
+In case you need to have multiple accounts in windows credentials manager, follow these steps
+
+-> First you need to set your user name and email locally for this project only so that it doesn't affect system username and email
+
+Run these commands from local cloned repo.
+
+git config --local user.name <your_github_username>
+
+git config --local user.name <your_github_email>
+
+-> Second, y
