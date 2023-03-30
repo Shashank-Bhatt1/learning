@@ -1,0 +1,26 @@
+== Bootstrap scss guides==
+
+=> when adding bootstrap via scss method then we are already aware that we have to override bootstrap variables in scss by importing our own variables first and 
+then importing bootstrap variables
+
+=> but in case of when it is needed to exten bootstrap utility, a very specific order is necessary because if you don't follow that order then error might occur.
+
+=> Added files here will show the specific case for overriding variables and utilities.
+
+here there are three files - 
+
+main.scss- which is main file off scss where everything else has been imported
+_variables.scss - this is variable overrides for bootstrap as well as new custom variables, this has been imported before bootstrao variables to override them.
+_custom_bs_utilities - this file goes after importing bootstrap amd codebase(installed theme's) utilities but before importing bootstrao itself 
+    becausse bootstrap starts using utilities when we import them into it.
+
+i.e. like this,
+
+// Bootstrap Utilities
+@import "bootstrap/utilities";
+
+// Custom utilities and Bootstrap overrides
+@import "codebase/utilities";
+@import "custom/utility/custom_bs_utilities"; /// this is my file for customizing bootstrap utilities
+
+// Bootstrap components (original)

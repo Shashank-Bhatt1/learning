@@ -1,0 +1,95 @@
+This section is a summary of the basic steps to add drag-and-drop functionality to an application (for elements).
+
+=> Identify what is draggable. By default any element is not draggable and we have to make them with this attribute. 
+
+    Making an element draggable requires adding the draggable attribute and the ondragstart event handler, as shown in the following code sample:
+
+    <p id="p1" draggable="true">This element is draggable.</p>
+
+
+
+=> Specify drag start handler when user starts dragging it. Also we can define drag's data to send along with dragged element.
+
+    The application is free to include any number of data items in a drag operation. Each data item is a string of a particular type — typically a MIME type such as text/html.
+
+    Each drag event has a dataTransfer property that holds the event's data. This property (which is a DataTransfer object) also has methods to manage drag data. 
+    The setData() method is used to add an item to the drag data, as shown in the following example.
+
+    For a list of common data types used in drag-and-drop (such as text, HTML, links, and files), see
+    
+    https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Recommended_drag_types
+
+    @dragstart="(event)=>{
+        event.dataTransfer.setData("text/plain", ev.target.innerText); //sets text of event's target
+        event.dataTransfer.setData("text/plain", ev.target.outerHTML); //sets html of event's target
+        event.dataTransfer.setData('draggedItem', 'status'); //set custom property to dragged data along with it;s value
+        event.dataTransfer.setData('statusId', '{{ $statusId }}'); //set custom property to dragged data along with it;s value
+    }"
+
+=> Define the drag image
+
+    By default, the browser supplies an image that appears beside the pointer during a drag operation. 
+    However, an application may define a custom image with the setDragImage() method, as shown in the following example.
+
+
+    let img = new Image();
+    img.src = "example.gif";
+    ev.dataTransfer.setDragImage(img, 10, 10);
+
+=> Define the drop effect
+    The dropEffect property is used to control the feedback the user is given during a drag-and-drop operation. 
+    It typically affects which cursor the browser displays while dragging. For example, when the user hovers over a drop target, 
+    the browser's cursor may indicate the type of operation that will occur.
+
+    event.dataTransfer.dropEffect = "copy";
+
+
+=> Define a drop zone
+    By default, the browser prevents anything from happening when dropping something onto most HTML elements. 
+    To change that behavior so that an element becomes a drop zone or is droppable, the element must have both ondragover and ondrop event handler attributes.
+
+    So in case of alpine js it will be @dragover.prevent and @drop.prevent. 
+    (prevent modifier is to prevent default action in alpine js which is same as event.preventDefault in plain js)
+    
+    Also we can define @dragleave to set dropping property to highlight when element is dragged over, 
+    and finally inside drop event, get draggeditem via - event.dataTransfer.getData('draggedItem') 
+    which was set when starting drag via -  event.dataTransfer.setData('draggedItem', 'status');
+
+
+     <div class="workspace-timeline__section" x-data="{draggedItem: '',dropping: false}">
+        <div id="droptarget" @dragover.prevent="dropping = true"
+                @dragleave="dropping = false" :class="dropping ? 'bg-primary-light':''"
+                @drop.prevent="(event)=>{
+            draggedItem = event.dataTransfer.getData('draggedItem');
+            if(draggedItem == 'status') {
+                // do something
+            } else if (draggedItem == 'action') {
+                // do something else
+            }
+            dropping = false;
+        }">
+
+        </div>
+    </div>
+
+
+=>  We can also grab the id of the element when starting drag operation and then set it as event's data via setData of dataTransfer interface and then get that id in drop operation to move
+    that element from it's current location to dropped target.
+    
+    like inside drag start handler - event.dataTransfer.setData("application/my-app", ev.target.id); 
+    which will grab the id of the item being dragged
+
+    and in drop operation, append that element with id in drop target which will be event.target here
+    
+    const data = ev.dataTransfer.getData("application/my-app");
+    ev.target.appendChild(document.getElementById(data));
+
+
+=> For copy/move example you can use this source from mdn.
+
+https://mdn.github.io/dom-examples/drag-and-drop/copy-move-DataTransfer.html
+
+
+
+
+

@@ -1,0 +1,131 @@
+====drag and drop can be accomplished either for files uploading or for elements to elements=====
+
+1. For files
+
+=>  In case of files you don't need to define them dragabble(as in case of element) because you are dragging files to the browser.
+    
+=> So just define the dragover/dragenter events handler(common function for both of them) which prevent default action.
+
+    By default browser's default behaviour is to open files in new tab so we have to prevent that to enable drop operation.
+    e.g. dragoverhandler in js file dropping property is used to indicate styles when files are being dropping over (to highlight blue background color).
+
+    dragOverHandler(event) {
+        event.preventDefault();
+        this.dropping = true;
+    },
+
+=> Same as dragover handler, define function for case when draagging items (here files) leaves the drop target element. 
+    You only need to set dropping property to false in order to stop highlighting drop target.
+
+    dragLeaveHandler() {
+        this.dropping = false
+    },
+
+=> Now as a third and last step, define drop operation to get the files array (name, size etc..) from fileReader object and show them in array.
+
+    Here for example, we are getting event, type and allowed extensions as parameters. In the following drop handler, 
+    if the browser supports DataTransferItemList interface, the getAsFile() method is used to access each file; 
+    otherwise the DataTransfer interface's files property is used to access each file. and then we are even validating the files (optional and can be omitted)
+
+
+    dropHandler(event,fileType,extensions) {
+        if(event.dataTransfer.items) {
+            [...event.dataTransfer.items].forEach((item,i) => {
+                if (item.kind === 'file') {
+                    let file = item.getAsFile();
+                    this.fileValidate(file,fileType,extensions);
+                }
+            })
+        } else {
+            [...event.dataTransfer.files].forEach((file, i) => {
+                this.fileValidate(file,fileType,extensions);
+            });
+        }
+        this.dropping = false;
+    }
+=> Also if someone directly upload files by clicking on input type file and seleccting from file system then also we need to go to same thinng.
+
+    => fileUploaded handler does this thing. basically what we need to do is to define this handler on change event of input type file which will be fired when someone uploads files via file  input.
+    
+    => this handler like drophandler also receives three parameters - event, filetype and extensions.
+
+    => first it checks if there are no files then simply return because user can also abort operation by clicking on cancel button. - if(! event.target.files.length) return;
+
+    => and if it has files then we are iterating over these files. event.target is the same file input which has file files property on which we are iterating over.
+       and for  each iterated file we are calling fileValidate for each of them and eventually send to dispatch event for all of them.
+    
+    fileUploaded(event,fileType,extensions) {
+        if(! event.target.files.length) return;
+
+        for(let i = 0; i < event.target.files.length; i++) {
+            let file = event.target.files[i];
+            this.fileValidate(file,fileType,extensions);
+        }
+    },
+
+
+=> So fileValidate method receives three parameters information, 
+
+    file - the file object which was passed from drop handler after getting them as file via getAsFile method.
+    fileType - filetype will be passed from html element itself against which to check the validation. In this case it;s 'image'.
+    extensions - this will be array of all exgtensions which will be allowed.
+
+
+    => first we get extension of file from file object via string's split and pop method so string after last dot(.) will be used as file's extension.
+
+    => and then we prepare event name to dispatch from file type so event name in this case will be come 'image-uploaded'(so that every other types can have their own events and not common name like file-uploaded).
+
+    => and then we first check whether this file's extension falls within allowed extensions array by indexof (indexOf will return -1 if file's extension is not in extensions array)
+        and if it falls in array then we create fileReader object and read this file via readAsDataURL method on fileReader object.
+    
+    => and finally we are creating one custom javascript event via new CustomEvent method and dispatching it at window level via window.dispatchEvent. 
+        CustomEvent method also supports the ability to pass detail object so that we can pass customdata to it like name and url of this file as detail object.
+
+
+    fileValidate(file,fileType,extensions) {
+        let fileExtension = file.name.split('.').pop(),
+            eventName = fileType + '-uploaded';
+
+        if(extensions.indexOf(fileExtension) >= 0) {
+            let reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = (readEvent) => {
+                let fileEvent = new CustomEvent(eventName, {
+                    detail: {
+                        name: file.name,
+                        url:  readEvent.target.result
+                    }
+                });
+                window.dispatchEvent(fileEvent);
+            }
+        } else {
+            console.log('only ' + extensions +  ' files are allowed')
+        }
+    },
+
+=> and finally custom event created this way will be captured in elements event handler in alpine js.
+
+    in this event we get filename from passed detail object and then push that along with other informations like url and label in photos array as an object.
+    filename is everything before extension dot and  - $event.detail.name.substring(0, $event.detail.name.lastIndexOf('.'))
+    incase if it has no dot(extension is unknown) then this string will be empty so in that case it is only name of file - $event.detail.name
+
+    @image-uploaded.window="() => {
+        let filename = $event.detail.name.substring(0, $event.detail.name.lastIndexOf('.')) || $event.detail.name;
+        
+        photos.push({
+            id: photoId,
+            name: filename,
+            label: $event.detail.name,
+            url: $event.detail.url,
+        });
+        photoId++;
+    }"
+
+=> So photos array is updated so loop will be updated and ui will be updated from alpine js.
+
+    <template x-for="(photo,photoIndex) in photos" :key="photo.id">
+        // what ever is here will be updated due to updating photos array of loop
+
+    </template>
+
+

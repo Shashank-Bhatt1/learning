@@ -1,0 +1,109 @@
+//
+// Custom Variables
+//
+// Here you can add your own variables overrides
+//
+// The file is included before any other variable file,
+// so you can override them because they all use !default
+// --------------------------------------------------
+
+// For example, changing the primary color
+// $primary: #3b5998;
+$enable-negative-margins: true;
+$custom-green: #1CA11C;
+$white: #fff;
+$gray-100: #F5F8FB;
+$gray-550: #B2B3B6;
+
+
+
+$space-main-max-width: initial;
+$fixedmenu-height: 52px;
+
+$sidebar-mini-width: 55px;
+$sidebar-width: 210px;
+
+
+$sidebar-compact-mini-width: 50px;
+$sidebar-compact-width: 210px;
+
+
+$sidebar-large-mini-width: 62px;
+$sidebar-large-width: 230px;
+$side-transition: 0s;
+
+$sidebar-smaller-width: 150px;
+
+$table-color: #666;
+$table-hover-bg: #F2F9FF;
+
+//custom variables
+
+
+$custom-grey: #666;
+$custom-grey-light: #B2B3B6;
+
+
+
+$table-color: #666;
+$table-hover-bg: #F2F9FF;
+
+
+
+//custom variables
+
+$low-probability: #ff5858;
+$medium-probability: #ffa457;
+$high-probability: #ffc800;
+$highest-probability: #1bbba5;
+$custom-grey: #666;
+$custom-grey-light: #B2B3B6;
+
+
+$form-switch-bg-green-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$custom-green}'/></svg>") !default;
+
+$form-switch-focus-bg-green-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$custom-green}'/></svg>") !default;
+$form-switch-checked-bg-green-image:    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'><circle r='3' fill='#{$white}'/></svg>") !default;
+
+
+//codebase override
+$space-block: 1rem;
+$aspect-ratios: (
+  "1x1": 100%,
+  "4x3": calc(3 / 4 * 100%),
+  "16x9": calc(9 / 16 * 100%),
+  "21x9": calc(9 / 21 * 100%),
+  "2x1": calc(1 / 2 * 100%),
+) !default;
+
+//new border
+$border-radius-xxs: .15rem;
+$border-radius-xl: .4rem;
+$border-radius-xxl: .5rem;
+
+//new font sizes
+
+$font-size-xxs: 10px;
+$font-size-md: 15px;
+$font-size-xxs: 0.625rem;
+
+//new input sizes
+$input-btn-padding-y-xxs: .25rem !default;
+$input-btn-padding-x-xxs: .4rem !default;
+$input-btn-font-size-xxs: $font-size-xxs !default;
+
+
+//new button sizes
+$btn-border-radius-xxs: $border-radius-xxs !default;
+$btn-padding-y-xxs: $input-btn-padding-y-xxs !default;
+$btn-padding-x-xxs: $input-btn-padding-x-xxs !default;
+$btn-font-size-xxs: $input-btn-font-size-xxs !default;
+
+//new form-input-variables
+$input-border-radius-xxs: $border-radius-xxs !default;
+//$input-height-xxs: add($input-line-height * 1em, add($input-padding-y-xxs * 2, $input-height-border, false)) !default;
+$input-padding-y-xxs: $input-btn-padding-y-xxs !default;
+$input-padding-x-xxs: $input-btn-padding-x-xxs !default;
+$input-font-size-xxs: $input-btn-font-size-xxs !default;
+
+
