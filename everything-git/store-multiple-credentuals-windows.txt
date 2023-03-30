@@ -10,6 +10,12 @@ git config --local user.name <your_github_email>
 
 -> Second, you might probably not allowed to push even after setting correct user name and email due to earlier different credentuals username in git credentials manageer.
 
-your credentials username should be set as per your username to store it as credentials. 
+your credentials' username should be set as per your username to store it as credentials. 
 
-git config --global user.name ""
+git config --local credential.username "your_github_username"
+
+-> And after you store credentials.username as a git config, git credentails manageer will open up a new popup when trying push. Add your username and password or login with codebase
+
+-> After you login, new entry with your credentials will be added in git credentails manager and you will be able to push to your different repo.
+
+
