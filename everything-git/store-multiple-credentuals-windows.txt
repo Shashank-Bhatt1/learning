@@ -8,4 +8,8 @@ git config --local user.name <your_github_username>
 
 git config --local user.name <your_github_email>
 
--> Second, y
+-> Second, you might probably not allowed to push even after setting correct user name and email due to earlier different credentuals username in git credentials manageer.
+
+your credentials username should be set as per your username to store it as credentials. 
+
+git config --global user.name ""
