@@ -1,0 +1,51 @@
+Useful theories
+
+=> https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+=> https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList
+
+
+From above theories we can define one common function when we need to handle multiple media queries for multiple elements on the webpage
+
+
+
+// args - this is the mediaquerylist object passed as arguments
+
+// matchingcallback - this is the entire function passed as the argument to call it when media query matches to run matching things
+
+// nonmatchingcallback - this is the entire function passed as the argument to call it when media query doesn't matches to run nonmatching things
+
+function mediaCheck(args,matchingcallback,nonmatchingcallback) {
+    //define mediaQueryList object from passed arguments arga
+    let mqList = window.matchMedia(args);
+    function handleMediaQueryUpdate(event) {
+        if (event.matches) {
+            //call entire passed  matchingcallback function(also called callback in js) for
+            //when matching mediaquery list object with matches property
+            matchingcallback();
+        } else {
+            //call entire passed nonmatchingcallback function(also called callback in js) for
+            //when matching mediaquery list object with matches property
+            nonmatchingcallback();
+        }
+    }
+    mqList.addEventListener("change", handleMediaQueryUpdate);
+    handleMediaQueryUpdate(mqList);
+}
+
+=> After defining the above function we can use it like this for multiple mediaqueries
+
+//mediaChecking for 991px
+mediaCheck('(max-width: 991px)', () => {
+    //do things when screen goes below 991px
+}, () => {
+    //do things when screen goes above 991px
+})
+
+
+
+mediaCheck('(max-width: 767px)', () => {
+    //do things when screen goes below 767px
+    
+}, () => {
+    //do things when screen goes above 767px
+})
