@@ -1,0 +1,15 @@
+
+@include bg-variant(".bg-low-probability", $low-probability);
+@include bg-variant(".bg-medium-probability", $medium-probability);
+@include bg-variant(".bg-high-probability", $high-probability);
+@include bg-variant(".bg-highest-probability", $highest-probability);
+
+
+@include bg-variant('.bg-primary-op-alt', rgba($primary, .10));
+@include bg-variant(".bg-yellow", $yellow-500);
+@include bg-variant(".bg-yellow-dark", $yellow-600);
+@include bg-variant(".bg-yellow-darker", $yellow-800);
+@include bg-variant(".bg-yellow-light", $yellow-200);
+@include bg-variant(".bg-yellow-lighter", $yellow-100);
+
+

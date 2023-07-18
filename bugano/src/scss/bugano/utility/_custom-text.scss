@@ -1,0 +1,9 @@
+
+@include text-emphasis-variant(".text-yellow", $yellow-500);
+@include text-emphasis-variant(".text-yellow-dark", $yellow-600);
+@include text-emphasis-variant(".text-yellow-darker", $yellow-800);
+@include text-emphasis-variant(".text-yellow-light", $yellow-200);
+@include text-emphasis-variant(".text-yellow-lighter", $yellow-100);
+@include text-emphasis-variant(".text-gray-300", $gray-300);
+@include text-emphasis-variant(".text-gray-600", $gray-600);
+@include text-emphasis-variant(".text-elegance-primary", $theme-elegance-primary);

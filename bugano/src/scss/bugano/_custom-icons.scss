@@ -1,0 +1,78 @@
+@font-face {
+    font-family: 'icomoon';
+    src:  url('../../fonts/icomoon/icomoon.eot?ux5lh4');
+    src:  url('../../fonts/icomoon/icomoon.eot?ux5lh4#iefix') format('embedded-opentype'),
+      url('../../fonts/icomoon/icomoon.ttf?ux5lh4') format('truetype'),
+      url('../../fonts/icomoon/icomoon.woff?ux5lh4') format('woff'),
+      url('../../fonts/icomoon/icomoon.svg?ux5lh4#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+  }
+  
+  [class^="bugano-"], [class*=" bugano-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+  
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .bugano-zoom-in:before {
+    content: "\e90e";
+  }
+  .bugano-zoom-out:before {
+    content: "\e90f";
+  }
+  .bugano-Icon-awesome-expand-arrows-alt:before {
+    content: "\e910";
+  }
+  .bugano-Icon-material-file-upload:before {
+    content: "\e90d";
+  }
+  .bugano-plus-icon:before {
+    content: "\e900";
+  }
+  .bugano-mobile-tab-1-icon:before {
+    content: "\e901";
+  }
+  .bugano-select-down-icon:before {
+    content: "\e902";
+  }
+  .bugano-refresh-arrow-icon:before {
+    content: "\e903";
+  }
+  .bugano-mobile-tab-3-icon:before {
+    content: "\e904";
+  }
+  .bugano-mobile-close-icon:before {
+    content: "\e905";
+  }
+  .bugano-minus-icon:before {
+    content: "\e906";
+  }
+  .bugano-check-mark-icon:before {
+    content: "\e907";
+  }
+  .bugano-mobile-tab-2-icon:before {
+    content: "\e908";
+  }
+  .bugano-vertical-align-icon:before {
+    content: "\e909";
+  }
+  .bugano-horizontal-align-icon:before {
+    content: "\e90a";
+  }
+  .bugano-angle-icon:before {
+    content: "\e90b";
+  }
+  .bugano-color-picker-icon:before {
+    content: "\e90c";
+  }

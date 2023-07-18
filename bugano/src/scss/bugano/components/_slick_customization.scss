@@ -1,0 +1,33 @@
+.slick-track {
+    display: flex;
+}
+
+.slick-slide {
+    height: inherit !important;
+}
+.slick-arrow-previous, .slick-arrow-next {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100%;
+    color: $white;
+    background-color: $primary;
+
+    &:hover {
+        color: $white;
+    }
+    &.slick-disabled {
+        opacity: 0.4;
+    }
+}
+
+.slick-arrow-previous {
+    left: calc(50% - 46px);
+
+}
+
+.slick-arrow-next {
+    right: calc(50% - 46px)
+}

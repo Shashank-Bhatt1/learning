@@ -1,0 +1,178 @@
+
+
+.nav-tabs-alt { 
+    flex-wrap: nowrap;
+    .nav-link {
+        padding: 20px;
+        line-height: 1;
+        opacity: 0.5;
+        font-size: 18px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+
+        @include media-breakpoint-between(lg,xxl) {
+            padding: 20px 12px;
+            font-size: 16px;
+        }
+
+     
+
+        .nav-tabs-alt-border {
+            display: inline-block;
+            padding-bottom: 2px;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+        }
+        
+        &:hover,
+        &:focus {
+            box-shadow: none;
+            .nav-tabs-alt-border {
+               border-bottom: 2px solid $primary;
+            }
+        }
+    }
+
+    .nav-item {
+        position: relative;
+        @include media-breakpoint-up(lg){
+            &:not(:last-child):after {
+                content: "";
+                position: absolute;
+                width: 2px;
+                height: 100%;
+                top: 0;
+                right: 0;
+                background: transparent linear-gradient(180deg, #F2F3F4 0%, #FFFFFF 100%) 0% 0% no-repeat padding-box;
+            }
+        }
+    }
+    .nav-link.active, 
+    .nav-item.show .nav-link {
+        opacity: 1;
+        box-shadow: none;
+
+        .nav-tabs-alt-border {
+            border-bottom: 2px solid $primary;
+        }
+    } 
+}
+
+//editor interface tab
+
+.editor-interface {
+    &__tab__desktop {
+        box-shadow: 0px 15px 30px #00000014;
+        position: relative;
+        overflow: hidden;
+        align-items: center;
+        
+        @include media-breakpoint-down(lg) {
+            .nav-link {
+                display: none;
+                &.active {
+                    display: flex;
+                }
+
+            }
+        }
+    }
+    &__tab__mobile {
+        position: fixed;
+        bottom: 0px;
+        background-color: $white;
+        z-index: 3;
+        display: flex;
+        left: 14px;
+        width: calc(100% - 28px);
+        
+        .nav-link {
+            padding: 10px 15px;
+            flex-direction: column;
+            display: flex;
+            align-items: center;
+            color: #9D9E9F !important;
+            width: 100%;
+            margin: 0;
+
+            span {
+                @media (max-width: 414px) {
+                    &:nth-child(1) {
+                        font-size: 10px !important;
+                    }
+                    &:nth-child(2) {
+                        font-size: 10px !important;
+                    }
+                }
+            }
+
+            
+        }
+            
+        &.selected {
+            .nav-link.active {
+                color: $primary !important;
+                background-image: linear-gradient(0deg, #E7E6EF 0%, #E7E6EF00 40%, #E7E6EF00 100%);
+                font-weight: 600;
+            }
+        }
+           
+
+
+        .nav-item {
+            width: 25%;
+            position: relative;
+            &:not(:last-child):after {
+                content: "";
+                position: absolute;
+                width: 2px;
+                height: 100%;
+                top: 0;
+                right: 0;
+                background-image:  linear-gradient(180deg, #F2F3F4 0%, #FFFFFF 100%);
+            }
+        }
+    }
+    &__tab__icon {
+        width: 24px;
+        height: 24px;
+        background-color: $body-bg;
+        border-radius: 100%;
+        display: inline-flex;
+        margin-bottom: 5px;
+        align-items: center;
+        justify-content: center;
+
+        @include media-breakpoint-up(sm) {
+            width: 36px;
+            height: 36px;
+        }
+    }
+}
+
+
+///layers
+/// 
+.layerblock {
+    &.danger {
+        border-color: rgba($color: $danger, $alpha: 0.1) !important
+    }
+    &.success {
+        border-color: rgba($color: $success, $alpha: 0.1) !important
+    }
+}
+.layernum {
+    position: absolute;
+    border-radius: 100%;
+    color: $white;
+    left: -14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}

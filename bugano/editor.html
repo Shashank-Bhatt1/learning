@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <title>Bugano editor</title>
+        
+        <style>
+            [x-cloak] {
+                display: none !important;
+            }
+        </style>
+        
+        <!-- <link rel="stylesheet" id="css-main" href="dist/css/app.css" /> -->
+        <link rel="stylesheet" id="css-main" href="dist/css/bugano-main.css" />
+        <link rel="stylesheet" id="css-main" href="dist/css/bugano-custom.css" />
+        
+        
+        
+       
+        <script src="dist/js/jquery.min.js"></script>
+        
+        <script src="https://kit.fontawesome.com/ed99b80982.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <div id="page-container" class="side-scroll page-header-modern">
+            <main id="main-container">
+                <div id="main-container__inner">
+                    <div class="container container-xxxl container-main">
+                        <div class="logo-section row">
+                            <div class="col-lg-6 col-xl col-xxxl-7">
+                                <div class="d-flex align-items-center">
+                                    <div class="logo-section__logo me-2">
+                                        <a href="javascript:void(0)" class="d-block">
+                                            <img src="images/logo.png" class="img-fluid" alt="bugani logo" width="386" height="80"/>
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <ul class="logo-section__breadcrumb">
+                                            <li><a href="javascript:void(0)">Handelsfeuerwerk</a></li>
+                                            <li><a class="fw-bold" href="javascript:void(0)">Kundenvulkane Grosse 6</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 editor-interface__right col-xxxl-5"></div>
+                        </div>
+                        <div class="editor-interface row gx-0 gx-xl-3 position-relative z-index-1" x-data="{
+                                productBlockVisibleMobile: true,
+                                activeTab: 'layer',
+                                init() {
+                                    this.$watch('productBlockVisibleMobile', (value, oldValue)=> {
+                                        
+                                       // $store.canvas.resizeCanvas(window.__canvas);
+                                    })
+                                }
+                            }">
+                            <div class="col-lg-6 col-xl col-xxxl-7"  :class="productBlockVisibleMobile ? 'd-block':'d-none d-lg-block'">
+                                <div  :class="$store.canvas.isFullScreen ? 'position-fixed w-100 h-100 start-0 top-0 z-index-5 bg-body p-3 p-lg-5 overflow-auto':''">
+                                    <div class="editor-interface__left">
+                                        <div class="editor-interface__left__section" :class="$store.canvas.isFullScreen ? 'fixed-scroll':''">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <div class="canvas-wrapper-container" @resize.window.debounce.500ms="$store.canvas.resizeCanvas(window.__canvas,$event)">
+                                                        <div x-show="!($store.canvas.isInside3dView)">
+                                                            <div class="row g-3">
+                                                                <div class="col-12 col-xl-7 d-flex">
+                                                                    <div class="me-lg-3 flex-grow-1">
+                                                                        <input type="text" class="form-control editor-interface__title__control" placeholder="Title of your Volcano Fireworks" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <button type="button" class="btn editor-interface__left__btn d-none d-lg-block">
+                                                                            <span class="me-4">CHF <span>99.-</span></span>
+                                                                            <span>
+                                                                                <i class="fa-solid fa-circle-info"></i>
+                                                                            </span>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 col-xl-5 d-flex">
+                                                                    <button class="btn editor-interface__square bg-gray me-2" :disabled="$store.canvas.zoomAmount >= 2"
+                                                                        @click="$store.canvas.zoomInCanvas()">
+                                                                        <i class="bugano-zoom-in fa-lg"></i>
+                                                                    </button>
+                                                                    <button class="btn editor-interface__square bg-gray me-2" :disabled="$store.canvas.zoomAmount <= 1"
+                                                                        @click="$store.canvas.zoomOutCanvas()">
+                                                                        <i class="bugano-zoom-out fa-lg"></i>
+                                                                    </button>
+                                                                    <button class="btn editor-interface__square bg-gray me-2"  @click="$store.canvas.setFullScreenCanvas()">
+                                                                        <i class="bugano-Icon-awesome-expand-arrows-alt fa-md"></i>
+                                                                    </button>
+                                                                    <button class="btn editor-interface__square bg-white ms-auto ms-lg-3" @click="$store.canvas.enable3d()">
+                                                                        <span class="fw-bold" >3D</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="my-2 my-lg-0">
+                                                                <div class="product-canvas-wrapper">
+                                                                    <div class="ratio ratio-1x1">
+                                                                        <div id="product-canvas-holder" class="border border-primary">
+                                                                            <div class="text-end my-3 position-absolute top-0 end-0 mt-2 me-2 z-index-2">
+                                                                                <button type="button" data-bs-toggle="modal" data-bs-target="#objectDeleteConfirmModal"
+                                                                                class="btn btn-danger editor-interface__square"
+                                                                                    :disabled="$store.canvas.isDeletebtnDisabled">
+                                                                                    <i class="far fa-lg fa-trash"></i>
+                                                                                </button>
+                                                                            </div>
+                                                                            <canvas id="product-canvas" ></canvas>
+                                                                            <!-- now this will be not needed as background color is replaced by background image-->
+                                                                            <!-- <img :src="$store.canvas.getSelectedProductObj().productImageUrl" class="img-fluid product-canvas-img" alt="" /> -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="text-center mt-3 mb-0 mb-xl-7">
+                                                                    <button x-data="{
+                                                                        timeOutInstance: null,
+                                                                        clickHandler() {
+                                                                            $store.canvas.saveCanvasAsImage();
+                                                                            if(this.timeOutInstance) {
+                                                                                clearTimeout(this.timeOutInstance);
+                                                                            }
+                                                                            this.$el.classList.add('clicked');
+                                                                            this.timeOutInstance = setTimeout(function(){
+                                                                                this.$el.classList.remove('clicked');
+                                                                            }.bind(this),1000)
+                                                                        }
+                                                                    }" @click.debounce.0ms="clickHandler" type="button" class="btn btn-lg btn-elegance-primary editor-interface__btn">
+                                                                        <span  class="fw-semibold">ORDER IT</span>
+                                                                        <span class="ms-2 bg-black-25 p-2 rounded-5">CHF <span class="fw-bold">99.-</span></span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div x-show="($store.canvas.isInside3dView)">
+                                                            <div class="row g-3">
+                                                                <div class="col-12 col-xl-7 d-flex"></div>
+                                                                <div class="col-12 col-xl-5 d-flex">
+                                                                    <button class="btn editor-interface__square bg-gray me-2" @click="$dispatch('canvas-3d-zoomin')">
+                                                                        <i class="bugano-zoom-in fa-lg"></i>
+                                                                    </button>
+                                                                    <button class="btn editor-interface__square bg-gray me-2" @click="$dispatch('canvas-3d-zoomout')">
+                                                                        <i class="bugano-zoom-out fa-lg"></i>
+                                                                    </button>
+                                                                    <button class="btn editor-interface__square bg-gray me-2" @click="$store.canvas.setFullScreenCanvas()">
+                                                                        <i class="bugano-Icon-awesome-expand-arrows-alt fa-md"></i>
+                                                                    </button>
+                                                                    <button class="btn editor-interface__square bg-white ms-auto ms-lg-3" @click="$store.canvas.disable3d()">
+                                                                        <span class="fw-bold">2D</span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="my-2">
+                                                                <div class="product-canvas-wrapper">
+                                                                    <div class="ratio ratio-1x1">
+                                                                        <div id="canvas-3d-holder" class="border border-primary cursor-pointer">
+                                                                            <!-- <canvas id="product-canvas-3d"></canvas> -->
+                                                                            <!-- now this will be not needed as background color is replaced by background image-->
+                                                                            <!-- <img :src="$store.canvas.getSelectedProductObj().productImageUrl" class="img-fluid product-canvas-img" alt="" /> -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 editor-interface__right col-xxxl-5"  :class="productBlockVisibleMobile ? 'd-none d-lg-block':'d-block'">
+                                <div class="position-relative">
+                                    <span class="closebtn d-lg-none" @click="productBlockVisibleMobile = true">
+                                        <a href="javascript:void(0)" class="closebtn__link">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </a>
+                                    </span>
+                                    <div class="block block-rounded rounded-5 z-index-2 position-relative mb-0">
+                                        <ul class="nav nav-tabs nav-tabs-alt editor-interface__tab__desktop" role="tablist">
+                                            <span class="dotted-background"></span>
+                                            <li class="nav-item" @click="$refs.backgroundTriggerMobile.click()">
+                                                <button type="button" class="nav-link text-primary" data-bs-toggle="tab" role="tab" id="canvas-background-tab"
+                                                data-bs-target="#canvas-background" x-ref="backgroundTrigger"
+                                                :class="activeTab === 'background'? 'active' : ''"
+                                                :aria-selected="activeTab === 'background'? true : false">
+                                                    <div class="d-flex align-items-center" x-data="{backgrounds: []}" @set-bg-length.window="backgrounds = $event.detail.backgrounds">
+                                                        <span class="nav-tabs-alt-border">Hintergrund</span>
+                                                        <span class="number light ms-3 flex-shrink-0" x-text="backgrounds.length"></span>
+                                                    </div>
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" @click="$refs.motiveTriggerMobile.click()">
+                                                <button type="button" class="nav-link text-primary" data-bs-toggle="tab" role="tab" id="own-shape-tab"
+                                                data-bs-target="#own-shape" x-ref="motiveTrigger"
+                                                :class="activeTab === 'motive'? 'active' : ''"
+                                                :aria-selected="activeTab === 'motive'? true : false">
+                                                    <div class="d-flex align-items-center" x-data="{shapes: []}" @set-shapes-length.window="shapes = $event.detail.shapes">
+                                                        <span class="nav-tabs-alt-border">Eigene Motive</span> 
+                                                        <span class="number ms-3 flex-shrink-0" x-text="shapes.length">32</span>
+                                                    </div>
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" @click="$refs.labelTriggerMobile.click()">
+                                                <button type="button" class="nav-link text-primary" data-bs-toggle="tab" role="tab" id="labelling-tab"
+                                                data-bs-target="#labelling" x-ref="labelTrigger"
+                                                :class="activeTab === 'label'? 'active' : ''"
+                                                :aria-selected="activeTab === 'label'? true : false">
+                                                    <span class="nav-tabs-alt-border">Beschriftung</span>
+                                                </button>
+                                            </li>
+                                            <li class="nav-item" @click="$refs.layerTriggerMobile.click()">
+                                                <button type="button" class="nav-link text-primary" data-bs-toggle="tab" role="tab" id="layering-tab"
+                                                 data-bs-target="#layering" x-ref="layerTrigger"
+                                                 :class="activeTab === 'layer' ? 'active':''"
+                                                 :aria-selected="activeTab === 'layer'? true : false">
+                                                    <span class="nav-tabs-alt-border">Layers</span>
+                                                    <span class="number ms-3 flex-shrink-0" x-text="$store.canvas.layers.length"></span>
+                                                </button>
+                                            </li>
+                                        </ul>
+                                        
+                                        <div class="block-content block-content-full tab-content editor-interface__scroll bg-custom-gradient">
+                                            <div class="tab-pane position-relative" id="canvas-background" role="tabpanel" aria-labelledby="canvas-background-tab"  x-data="backgrounds"
+                                                :class="activeTab === 'background'? 'active' : ''">
+                                                <div :class="isUploadBlockVisible ? 'd-lg-none': 'd-block'">
+                                                    <div class="block bg-transparent mb-3">
+                                                        <div class="row gx-2">
+                                                            <div class="col-12 col-lg col-xxxl-8">
+                                                                <div class="position-relative">
+                                                                    <input type="text" class="form-control editor-interface__background__search" placeholder="Stichwortsuche" 
+                                                                         x-model="backgroundSearch" @keyup="filterBackground()"/>
+                                                                    <span class="position-absolute end-0 top-50 translate-middle-y me-3 text-primary">
+                                                                        <i class="fa-sharp fa-regular fa-magnifying-glass fa-lg"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-lg-auto col-xxxl-4 d-none d-lg-flex">
+                                                                <div class="btn-group" role="group" aria-label="upload background" @click="showUploadBlock()">
+                                                                    <button type="button" class="btn btn-primary-dark upload-btn flex-grow-0">
+                                                                        <i class="bugano-Icon-material-file-upload fs-4"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-primary text-start upload-btn">
+                                                                        Eigenen Hinter-<br/>grund hochladen
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="block bg-transparent position-relative mb-0">
+                                                        <div class="row gx-2 editor-interface__scroll__inner">
+                                                            <template x-for="background in backgrounds">
+                                                                <div class="col-6 mb-2" :class="background.hidden ? 'd-none': ''">
+                                                                    <a href="javascript:void(0)" class="ratio ratio-background d-block" 
+                                                                        @click="selectBackground(background.id, background.url)">
+                                                                        <img class="img-fluid rounded-5 border img-cover" :src="background.url" alt="background" 
+                                                                            :class="selectedBackground === background.id ? 'border-3 border-primary': ''"/>
+                                                                    </a>
+                                                                </div>
+                                                            </template>
+                                                        </div>
+                                                        <div class="fadetowhite"></div>
+                                                    </div>
+                                                    <div class="btn-group  upload-btn-group-sticky d-lg-none" role="group" aria-label="upload background" @click="showUploadBlock()">
+                                                        <button type="button" class="btn btn-primary-dark upload-btn flex-grow-0">
+                                                            <i class="bugano-Icon-material-file-upload fs-4"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary text-start upload-btn">
+                                                            Eigenen Hintergrund hochladen
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="uploadblock innerpopup-block" x-data="dragdrop" :class="isUploadBlockVisible ? 'visibleonmobile': 'd-lg-none'">
+                                                    <span class="innerpopup-block__drag__handle d-lg-none" @click="hideUploadBlock()">
+                                                        <a href="javascript:void(0)" class="innerpopup-block__drag__link"></a>
+                                                    </span>
+                                                    <div class="d-none d-lg-flex align-items-center">
+                                                        <div class="me-3">
+                                                            <label role="button" class="btn btn-primary editor-interface__square" for="background-upload">
+                                                                <i class="bugano-Icon-material-file-upload fs-4"></i>
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <span class="text-primary fw-bold">Eigenen Hintergrund hochladen</span>
+                                                        </div>
+                                                        <span class="linedesign ms-3"></span>
+                                                    </div>
+                                                    <div class="droptarget my-4 text-primary"  :class="dropping ? 'bg-primary-lighter':''"
+                                                            @dragover.prevent="dragOverHandler(event)"
+                                                            @dragenter.prevent="dragOverHandler(event)"
+                                                            @dragleave="dragLeaveHandler()"
+                                                            @drop.prevent="dropHandler(event,'background',['jpg','bmp','png'])">
+                                                        <div class="position-absolute w-100 h-100 start-0 top-0 d-flex flex-column align-items-center justify-content-center"
+                                                            @background-uploaded.window="() => {
+                                                                let filename = $event.detail.name.substring(0, $event.detail.name.lastIndexOf('.')) || $event.detail.name;
+                                                                tempBackground.name = filename;
+                                                                tempBackground.label = $event.detail.name;
+                                                                tempBackground.url = $event.detail.url;
+                                                            }" >
+                                                            <template x-if="!tempBackground.url">
+                                                                <div>
+                                                                    <h6 class="mb-1">Select your Graphic to upload</h6>
+                                                                    <p>(.jpg, .png, .bmp, 10MB max)</p>
+                                                                </div>
+                                                            </template>
+                                                            <template x-if="tempBackground.url">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="image-upload-content me-3">
+                                                                        <img class="img-fluid h-100 w-100 rounded-5" :src="tempBackground.url" :alt="tempBackground.name" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <h6 x-text="tempBackground.label" class="mb-1"></h6>
+                                                                        <p class="mb-0">was uploaded and ready to use!</p>
+                                                                    </div>
+                                                                     
+                                                                </div>
+                                                            </template>
+                                                            <input type="file" class="form-control position-absolute w-100 h-100 opacity-0" id="background-upload" 
+                                                                @change="fileUploaded($event,'background',['jpg','bmp','png'])"
+                                                                accept=".bmp,.png,.jpg"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="image-upload-notice border-0 block block-rounded rounded-5">
+                                                        <div class="block-content block-content-full">
+                                                            For the creation of your individual design file we charge <span class="fw-bold">CHF50</span>!
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="d-none d-lg-flex">
+                                                            <div class="img-avatar img-avatar24 me-2" >
+                                                                <div class="ratio ratio-1x1">
+                                                                    <a class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" href="javascript:void(0)"
+                                                                        style="padding-top: 2px;">
+                                                                        <i class="fa-solid fa-arrow-left fa-sm"></i></a>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <a href="javascript:void(0)" class="fw-semibold" @click="hideUploadBlock()">Back to our Backgrounds</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 flex-lg-grow-0">
+                                                            <button type="button" class="btn btn-primary w-100" @click="() => {
+                                                                addBackground();
+                                                                productBlockVisibleMobile = true;
+                                                            }">
+                                                                Upload & Use
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane position-relative" id="own-shape" role="tabpanel" aria-labelledby="own-shape-tab"  x-data="shapes"
+                                                :class="activeTab === 'motive'? 'active' : ''">
+                                                <div :class="isUploadBlockVisible ? 'd-lg-none': 'd-block'">
+                                                    <div class="block bg-transparent">
+                                                        <div class="row gx-2">
+                                                            <div class="col-12 col-lg col-xxxl-8">
+                                                                <div class="position-relative">
+                                                                    <input type="text" class="form-control editor-interface__background__search" placeholder="Stichwortsuche" 
+                                                                        x-model="shapeSearch" @keyup="filterShape()"/>
+                                                                    <span class="position-absolute end-0 top-50 translate-middle-y me-3 text-primary">
+                                                                        <i class="fa-sharp fa-regular fa-magnifying-glass fa-lg"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-lg-auto col-xxxl-4 d-none d-lg-flex">
+                                                                <div class="btn-group" role="group" aria-label="upload shape" @click="showUploadBlock()">
+                                                                    <button type="button" class="btn btn-primary-dark upload-btn">
+                                                                        <i class="bugano-Icon-material-file-upload fs-4"></i>
+                                                                    </button>
+                                                                    <button type="button" class="btn btn-primary text-start upload-btn">
+                                                                        Eigenen Hinter-<br/>grund hochladen
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="block bg-transparent position-relative">
+                                                        <div class="row gx-2 editor-interface__scroll__inner">
+                                                            <template x-for="shape in shapes">
+                                                                <div class="col-4 mb-2  text-center" :class="shape.hidden ? 'd-none': ''">
+                                                                    <a class="editor-interface__shape" :class="selectedShape === shape.id ? 'editor-interface__shape__selected': ''" href="javascript:void(0)" 
+                                                                        @click="selectShape(shape.id, shape.url)">
+                                                                        <img :id="shape.id" class="img-fluid editor-interface__shape__img" :src="shape.url" alt="background"
+                                                                            :class="selectedShape === shape.id ? 'selected': ''" />
+                                                                    </a>
+                                                                </div>
+                                                            </template>
+                                                            
+                                                        </div>
+                                                        <div class="fadetowhite"></div>
+                                                    </div>
+                                                    <div class="block bg-transparent position-relative mb-0 innerpopup-block"
+                                                        :class="isConfigurationBlockVisible ? 'visibleonmobile': ''">
+                                                        <span class="innerpopup-block__drag__handle d-lg-none" @click="hideConfigurationBlock()">
+                                                            <a href="javascript:void(0)" class="innerpopup-block__drag__link"></a>
+                                                        </span>
+                                                        <div class="row justify-content-between gx-5 gy-4">
+                                                            <div class="col-12 col-md-auto">
+                                                                <div class="d-flex align-items-center mb-2">
+                                                                    <h6 class="mb-0">SIZE</h6>
+                                                                    <span class="linedesign ms-3 me-0"></span>
+                                                                </div>
+                                                                <div class="row gx-2 flex-nowrap">
+                                                                    <div class="col-auto">
+                                                                        <button type="button" class="btn editor-interface__square bg-gray-lighter fw-bold" @click="$store.canvas.increaseObjectSize()">
+                                                                            <span><i class="fa-regular fa-plus"></i></span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="col-auto">
+                                                                        <button type="button" class="btn editor-interface__square bg-gray-lighter fw-bold" @click="$store.canvas.decreaseObjectSize()">
+                                                                            <span><i class="fa-regular fa-minus"></i></span>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-auto">
+                                                                <div class="d-flex align-items-center mb-2">
+                                                                    <h6 class="mb-0">GEOMETRY</h6>
+                                                                    <span class="linedesign ms-3 me-0"></span>
+                                                                </div>
+                                                                <div class="row flex-nowrap gx-2">
+                                                                    <div class="col-auto">
+                                                                        <button type="button" class="btn editor-interface__square border bg-gray-lighter" @click="$store.canvas.setVerticalCenter()">
+                                                                            <span class="bugano-vertical-align-icon fw-bold fs-4"></span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="col-auto">
+                                                                        <button type="button" class="btn editor-interface__square border bg-gray-lighter" @click="$store.canvas.setHorizontalCenter()">
+                                                                            <span class="bugano-horizontal-align-icon fw-bold fs-4"></span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="col-auto">
+                                                                        <span class="btn editor-interface__square text-primary" >
+                                                                            <span class="bugano-angle-icon fw-bold fs-4"></span>
+                                                                        </span>
+                                                                    </div>
+                                                                    <div class="col-auto">
+                                                                        <input type="number" min="0" max="360"  class="form-control border bg-gray-lighter" @change="$store.canvas.setAngle($el.value)"/>
+                                                                    </div>
+                                                                    <!-- <div class="col-auto">
+                                                                        <button type="button" class="btn editor-interface__square border" @click="sizeHandler()"
+                                                                        :class="isShapeSizeSelected ? 'border-3 border-primary':'bg-gray-lighter'">
+                                                                            <span x-text="getSelectedScale()"></span>
+                                                                        </button>
+                                                                    </div> -->
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 d-lg-none">
+                                                                <button type="button" class="btn btn-primary w-100" @click="productBlockVisibleMobile = true">
+                                                                    <span class="bugano-check-mark-icon me-2 align-middle"></span>
+                                                                    <span class="align-middle">Apply & Save</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="btn-group upload-btn-group-sticky d-lg-none" role="group" aria-label="upload shape" @click="showUploadBlock()">
+                                                        <button type="button" class="btn btn-primary-dark upload-btn flex-grow-0">
+                                                            <i class="bugano-Icon-material-file-upload fs-4"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-primary text-start upload-btn">
+                                                            Eigenen Hintergrund hochladen
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="uploadblock innerpopup-block" x-data="dragdrop" :class="isUploadBlockVisible ? 'visibleonmobile': 'd-lg-none'">
+                                                    <span class="innerpopup-block__drag__handle d-lg-none" @click="hideUploadBlock()">
+                                                        <a href="javascript:void(0)" class="innerpopup-block__drag__link"></a>
+                                                    </span>
+                                                    <div class="d-none d-lg-flex align-items-center">
+                                                        <div class="me-3">
+                                                            <label role="button" class="btn btn-primary editor-interface__square" for="shape-upload">
+                                                                <i class="bugano-Icon-material-file-upload fs-4"></i>
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <span class="text-primary fw-bold">Eigenen Hintergrund hochladen</span>
+                                                        </div>
+                                                        <span class="linedesign ms-3"></span>
+                                                    </div>
+                                                    <div class="droptarget my-4 text-primary"  :class="dropping ? 'bg-primary-lighter':''"
+                                                            @dragover.prevent="dragOverHandler(event)"
+                                                            @dragenter.prevent="dragOverHandler(event)"
+                                                            @dragleave="dragLeaveHandler()"
+                                                            @drop.prevent="dropHandler(event,'shape',['svg'])">
+                                                        <div class="position-absolute w-100 h-100 start-0 top-0 d-flex flex-column align-items-center justify-content-center"
+                                                            @shape-uploaded.window="() => {
+                                                                let filename = $event.detail.name.substring(0, $event.detail.name.lastIndexOf('.')) || $event.detail.name;
+                                                                tempShape.name = filename;
+                                                                tempShape.label = $event.detail.name;
+                                                                tempShape.url = $event.detail.url;
+                                                            }" >
+                                                            <template x-if="!tempShape.url">
+                                                                <div class="text-center">
+                                                                    <h6 class="mb-1">Select your Graphic to upload</h6>
+                                                                    <p>(.svg, 10MB max)</p>
+                                                                </div>
+                                                            </template>
+                                                            <template x-if="tempShape.url">
+                                                                <div class="d-flex align-items-center">
+                                                                    <div class="image-upload-content me-3">
+                                                                        <img class="img-fluid h-100 w-100 rounded-5" :src="tempShape.url" :alt="tempShape.name" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <h6 x-text="tempShape.label" class="mb-1"></h6>
+                                                                        <p class="mb-0">was uploaded and ready to use!</p>
+                                                                    </div>
+                                                                     
+                                                                </div>
+                                                            </template>
+                                                            <input type="file" class="form-control position-absolute w-100 h-100 opacity-0" id="shape-upload" 
+                                                                @change="fileUploaded($event,'shape',['svg'])"
+                                                                accept=".svg"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="image-upload-notice border-0 block block-rounded rounded-5">
+                                                        <div class="block-content block-content-full">
+                                                            For the creation of your individual design file we charge <span class="fw-bold">CHF50</span>!
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <div class="d-none d-lg-flex">
+                                                            <div class="img-avatar img-avatar24 me-2" >
+                                                                <div class="ratio ratio-1x1">
+                                                                    <a class="rounded-circle bg-primary text-white d-flex justify-content-center align-items-center" href="javascript:void(0)"
+                                                                        style="padding-top: 2px;">
+                                                                        <i class="fa-solid fa-arrow-left fa-sm"></i></a>
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <a href="javascript:void(0)" class="fw-semibold" @click="hideUploadBlock()">Back to our Backgrounds</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1 flex-lg-grow-0">
+                                                            <button type="button" class="btn btn-primary w-100" @click="() => {
+                                                                addShape();
+                                                                productBlockVisibleMobile = true;
+                                                            }">
+                                                                Upload & Use
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane position-relative" id="labelling" role="tabpanel" aria-labelledby="labelling-tab"
+                                                :class="activeTab === 'label'? 'active' : ''" x-data="fonts">
+                                                <div class="block bg-transparent">
+                                                    <div class="row mb-5">
+                                                        <div class="col">
+                                                            <textarea x-model="enteredText" class="form-control" rows="4"></textarea>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button type="button" class="btn btn-primary position-relative" @click="addLabel(enteredText)">
+                                                                <span class="triangle right"></span>
+                                                                <span class="bugano-refresh-arrow-icon"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-4"  x-data="colors" x-bind="colordatawrapper">
+                                                    <div class="block bg-transparent">
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <h6 class="mb-0">COLOR</h6>
+                                                            <span class="linedesign ms-3 me-0"></span>
+                                                        </div>
+                                                        <div class="row mb-4">
+                                                            <div class="col">
+                                                                <div class="d-flex">
+                                                                    <div class="d-flex flex-wrap">
+                                                                        <template x-for="(defaultColor,defaultColorIndex) in defaultColors" :key="defaultColor.id">
+                                                                            <a :id="'color-' + defaultColor.id" href="javascript:void(0)" class="btn editor-interface__square rounded-5 me-2 mb-2" :style="{'backgroundColor': defaultColor.color}"
+                                                                                @click="setTextColor(defaultColor)" :class="currentTextColorObj?.id === defaultColor.id ? 'border-3 border-primary': ''"></a>
+                                                                        </template>
+                                                                        <template x-for="(color,colorIndex) in colors" :key="color.id">
+                                                                            
+                                                                            <a :id="'color-' + color.id" href="javascript:void(0)" class="btn editor-interface__square rounded-5 me-2 mb-2 position-relative" :style="{'backgroundColor': color.color}"
+                                                                                @click="setTextColor(color)" :class="currentTextColorObj?.id === color.id ? 'border-3 border-primary': ''">
+                                                                                <span  @click="removeColor(colorIndex)" class="editor-interface__remove__color cursor-pointer"><i class="far fa-close"></i></span>
+                                                                            </a>
+                                                                        </template>
+                                                                    </div>
+                                                                    <a href="javascript:void(0)" class="btn editor-interface__square bg-gray-lighter rounded-5 me-1 position-relative"
+                                                                        @click="addColor(selectedColor)">
+                                                                        <span class="triangle bottom"></span>
+                                                                        <span class="bugano-plus-icon fa-lg text-gray-600 opacity-25"></span>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-auto text-end d-lg-none">
+                                                                <button type="button" class="btn bg-gray-lighter editor-interface__square position-relative"
+                                                                    @click="showConfigurationBlock()">
+                                                                    <span class="triangle right"></span>
+                                                                    <span class="bugano-color-picker-icon fa-lg"></span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="block bg-transparent position-relative mb-0 innerpopup-block" :class="isConfigurationBlockVisible ? 'visibleonmobile': ''">
+                                                        <span class="innerpopup-block__drag__handle d-lg-none" @click="hideConfigurationBlock()">
+                                                            <a href="javascript:void(0)" class="innerpopup-block__drag__link"></a>
+                                                        </span>
+                                                        <div class="row gy-2">
+                                                            <div class="col-auto">
+                                                                <div id="canvas-holder" x-data="colorpicker" 
+                                                                    x-bind="wrapper">
+                                                                    <canvas id="colorpicker"></canvas>
+                                                                    <div id="colorpicker-circle"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <div>
+                                                                    <div class="d-flex align-items-center mb-2">
+                                                                        <div class="me-2">
+                                                                            <a class="btn editor-interface__square" :style="{backgroundColor: selectedColor,
+                                                                                border: (lightness > 90 ? '1px solid': 'none')}"></a>
+                                                                        </div>
+                                                                        <div class="d-flex align-items-center position-relative">
+                                                                            <input type="range" id="hue" min="0" max="360" class="hue-range-slider" x-model="hue" 
+                                                                                @input="updateRGBFromHue()" x-init="updateRGBFromHue()"
+                                                                                @change.debounce.100ms="$dispatch('color-updated',{h:hue,s:saturation,l:lightness})" />
+                                                                            <output class="hue-range-output" for="hue" :value="hue + '°'"></output>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row">
+                                                                        <div class="col-4">
+                                                                            <input type="number" class="form-control form-control-alt text-center" alt="" x-model="red" min="0" max="255"
+                                                                                maxlength="3" step="1" id="red" @input="updateHueFromRGB()"
+                                                                                @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})" />
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <input type="number" class="form-control form-control-alt text-center" alt="" x-model="green" min="0" max="255"
+                                                                                maxlength="3" step="1"  id="green" @input="updateHueFromRGB()" 
+                                                                                @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})" />
+                                                                        </div>
+                                                                        <div class="col-4">
+                                                                            <input type="number" class="form-control form-control-alt text-center" alt="" x-model="blue" min="0" max="255"
+                                                                                maxlength="3" step="1"  id="blue" @input="updateHueFromRGB()" 
+                                                                                @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="block bg-transparent" x-data="dragdrop">
+                                                    <div class="d-flex align-items-center mb-2">
+                                                        <h6 class="mb-0">Fonts</h6>
+                                                        <span class="linedesign ms-3 me-0"></span>
+                                                    </div>
+                                                    <div class="row mb-3" x-bind="trigger">
+                                                        <div class="col">
+                                                            <label class="editor-interface__font__upload position-relative" for="font-upload">
+                                                                <span x-text="getUploadText"></span>
+                                                                <span class="bugano-select-down-icon fa-lg position-absolute end-0 me-2 top-50 translate-middle-y"></span>
+                                                            </label>
+                                                            <input type="file" class="form-control visually-hidden"   id="font-upload" accept=".ttf,.otf,.woff,.woff2" 
+                                                                @change="fileUploaded($event,'font',['ttf','otf','woff','woff2'])"/>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button type="button" class="btn bg-primary-op-alt editor-interface__square 
+                                                                position-relative border-0" @click="addUploadedFonts()">
+                                                                <span class="triangle right"></span>
+                                                                <span class="bugano-plus-icon fa-lg text-primary"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row g-2">
+                                                        <template x-for="(defaultFont,defaultFontIndex) in defaultFonts" :key="defaultFont.id">
+                                                            <div class="col-auto">
+                                                                <button type="button" class="btn" 
+                                                                    :class="selectedFont === defaultFont.name ? 'btn-primary': 'bg-primary-op-alt text-primary'"
+                                                                    @click="setSelectedFont(defaultFont.name)" :style="{fontFamily: defaultFont.name}">
+                                                                    <span x-text="defaultFont.name"></span>
+                                                                </button>
+                                                            </div>
+                                                        </template>
+                                                        <template x-for="(uploadedFont,uploadedFontIndex) in uploadedFonts" :key="uploadedFont.id">
+                                                            <div class="col-auto">
+                                                                <button type="button" class="btn" 
+                                                                    :class="selectedFont === uploadedFont.name ? 'btn-primary': 'bg-primary-op-alt text-primary'"
+                                                                    @click="setSelectedFont(uploadedFont.name)" :style="{fontFamily: uploadedFont.name}">
+                                                                    <span x-text="uploadedFont.name"></span>
+                                                                </button>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                                <div class="block bg-transparent position-relative mb-0">
+                                                    <div class="row justify-content-between gx-5 gy-4">
+                                                        <div class="col-12 col-md-auto">
+                                                            <div class="d-flex align-items-center mb-2">
+                                                                <h6 class="mb-0">SIZE</h6>
+                                                                <span class="linedesign ms-3 me-0"></span>
+                                                            </div>
+                                                            <div class="row gx-2 flex-nowrap">
+                                                                <div class="col-auto">
+                                                                    <button type="button" class="btn editor-interface__square bg-gray-lighter fw-bold" @click="$store.canvas.increaseObjectSize()">
+                                                                        <span><i class="fa-regular fa-plus"></i></span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <button type="button" class="btn editor-interface__square bg-gray-lighter fw-bold" @click="$store.canvas.decreaseObjectSize()">
+                                                                        <span><i class="fa-regular fa-minus"></i></span>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-auto">
+                                                            <div class="d-flex align-items-center mb-2">
+                                                                <h6 class="mb-0">GEOMETRY</h6>
+                                                                <span class="linedesign ms-3 me-0"></span>
+                                                            </div>
+                                                            <div class="row flex-nowrap gx-2">
+                                                                <div class="col-auto">
+                                                                    <button type="button" class="btn editor-interface__square border bg-gray-lighter" @click="$store.canvas.setVerticalCenter()">
+                                                                        <span class="bugano-vertical-align-icon fw-bold fs-4"></span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <button type="button" class="btn editor-interface__square border bg-gray-lighter" @click="$store.canvas.setHorizontalCenter()">
+                                                                        <span class="bugano-horizontal-align-icon fw-bold fs-4"></span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <span class="btn editor-interface__square text-primary" >
+                                                                        <span class="bugano-angle-icon fw-bold fs-4"></span>
+                                                                    </span>
+                                                                </div>
+                                                                <div class="col-auto">
+                                                                    <input type="number" min="0" max="360"  class="form-control border bg-gray-lighter" @change="$store.canvas.setAngle($el.value)"/>
+                                                                </div>
+                                                                <!-- <div class="col-auto">
+                                                                    <button type="button" class="btn editor-interface__square border" @click="sizeHandler()"
+                                                                                :class="isLabelSizeSelected ? 'border-3 border-primary':'bg-gray-lighter'">
+                                                                                    <span x-text="getSelectedScale()"></span>
+                                                                    </button>
+                                                                </div> -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 d-lg-none">
+                                                            <button type="button" class="btn btn-primary w-100" @click="productBlockVisibleMobile = true">
+                                                                <span class="bugano-check-mark-icon me-2 align-middle"></span>
+                                                                <span class="align-middle">Apply & Save</span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane position-relative" id="layering" role="tabpanel" aria-labelledby="layering-tab"
+                                                :class="activeTab === 'layer'? 'active' : ''">
+                                                <div class="block bg-transparent position-relative mb-0">
+                                                    <div class="row">
+                                                        <div class="col-12 text-primary">
+                                                            <p>In this tab you can reorder all the graphical elements you've added to the design so far. Just drag and move them to reorder!</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="block bg-transparent position-relative">
+                                                    <div class="editor-interface__scroll__inner ps-3">
+                                                        <template x-for="(layer,index) in $store.canvas.layers" :key="layer.id">
+                                                            <div class="d-flex border p-3 rounded-5 align-items-center layerblock position-relative mb-3" :class="layer.color">
+                                                                <span class="layernum" x-text="layer.idNumeric + 1" :class="'bg-' + layer.color"></span>
+                                                                <div class="me-4 ms-3">
+                                                                    <div class="img-avatar img-avatar64">
+                                                                        <div class="d-flex align-items-center justify-content-center border border-2 rounded-5 w-100 h-100">
+                                                                            <template x-if="layer.type === 'motive'">
+                                                                                <img class="img-contain" :src="layer.imageUrl" alt="" width="40" height="40" />
+                                                                            </template>
+                                                                            <template x-if="layer.type === 'text'">
+                                                                                <span class="fa-xl fa-solid fa-text" :class="[layer.imageUrl, 'text-' + layer.color]"></span>
+                                                                            </template>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="flex-grow-1">
+                                                                    <span class="mb-0 h3" :class="'text-' + layer.color">Layer <span x-text="'#' + (layer.idNumeric + 1)"></span></span>
+                                                                    <span class="mx-3 opacity-50" :class="'text-' + layer.color"><i class="fa-solid fa-circle-small fa-2xs"></i></span>
+                                                                    <span class="opacity-50 text-uppercase" :class="'text-' + layer.color">
+                                                                        <span>TYPE:</span>
+                                                                        <span x-text="layer.type"></span>
+                                                                    </span>
+                                                                    
+                                                                </div>
+                                                            </div>
+                                                        </template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="block editor-interface__block__offset rounded-5 position-absolute w-100 h-100 z-index-1 d-none d-xl-block"></div>
+                                    <div class="block editor-interface__block__offset rounded-5 position-absolute w-100 h-100 z-index-0 d-none d-xl-block"></div>
+                                </div>
+                            </div>
+                            <ul class="nav nav-tabs editor-interface__tab__mobile d-lg-none rounded-5 overflow-hidden" role="tablist"
+                            :class="productBlockVisibleMobile ? '':'selected'">
+                                <li class="nav-item" @click="() => {
+                                        productBlockVisibleMobile = false;
+                                        $refs.backgroundTrigger.click();
+                                    }">
+                                    <button type="button" class="nav-link" data-bs-toggle="tab" role="tab" id="canvas-background-tab-mobile"
+                                        data-bs-target="#canvas-background" x-ref="backgroundTriggerMobile"
+                                        :class="activeTab === 'background'? 'active' : ''"
+                                        :aria-selected="activeTab === 'background'? true : false">
+                                        <span class="editor-interface__tab__icon">
+                                            <span class="bugano-mobile-tab-1-icon fa-lg"></span>
+                                        </span>
+                                        <span class="fs-sm fw-medium">Hintergrund</span>
+                                    </button>
+                                </li>
+                                <li class="nav-item" @click="() => {
+                                        productBlockVisibleMobile = false;
+                                        $refs.motiveTrigger.click();
+                                    }">
+                                    <button type="button" class="nav-link  " data-bs-toggle="tab" role="tab" id="own-shape-tab-mobile"
+                                        data-bs-target="#own-shape" x-ref="motiveTriggerMobile"
+                                        :class="activeTab === 'motive'? 'active' : ''"
+                                        :aria-selected="activeTab === 'motive'? true : false">
+                                        <span class="editor-interface__tab__icon">
+                                            <span class="bugano-mobile-tab-2-icon fa-lg"></span>
+                                        </span>
+                                        <span class="fs-sm fw-medium text-nowrap">Eigene Motive</span>
+                                    </button>
+                                </li>
+                                <li class="nav-item" @click="() => {
+                                        productBlockVisibleMobile = false;
+                                        $refs.labelTrigger.click();
+                                    }">
+                                    <button type="button" class="nav-link" data-bs-toggle="tab" role="tab" id="labelling-tab-mobile"
+                                        data-bs-target="#labelling" x-ref="labelTriggerMobile"
+                                        :class="activeTab === 'label'? 'active' : ''"
+                                        :aria-selected="activeTab === 'label'? true : false">
+                                        <span class="editor-interface__tab__icon">
+                                            <span class="bugano-mobile-tab-3-icon fa-lg"></span>
+                                        </span>
+                                        <span class="fs-sm fw-medium">Beschriftung</span>
+                                    </button>
+                                </li>
+                                <li class="nav-item" @click="() => {
+                                        productBlockVisibleMobile = false;
+                                        $refs.layerTrigger.click();
+                                    }">
+                                    <button type="button" class="nav-link" data-bs-toggle="tab" role="tab" id="layering-tab-mobile"
+                                        data-bs-target="#layering"  x-ref="layerTriggerMobile"
+                                        :class="activeTab === 'layer'? 'active' : ''"
+                                        :aria-selected="activeTab === 'layer'? true : false">
+                                        <span class="editor-interface__tab__icon">
+                                            <span class="fa-solid fa-layer-group fa-lg"></span>
+                                        </span>
+                                        <span class="fs-sm fw-medium">Layers</span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <img id="canvasConvertedImage" src="" alt />
+                        </div>
+                        <div class="modal fade"  id="objectDeleteConfirmModal" aria-hidden="true" x-data>
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="block block-rounded shadow-none mb-0">
+                                        <div class="block-content p-0">
+                                            <img src="images/Delete Popup Top BK.png" class="img-fluid" width="530" height="200" alt="deleteimg"/>
+                                        </div>
+                                        <div class="block-content p-4">
+                                            <div class="text-center">
+                                                <p class="text-primary mb-4 fs-5 lh-sm">Are you sure you want<br/>to <a href="javascript:void(0)" class="text-danger">delete</a> this Motive?</p>
+                                                <div class="row gx-2">
+                                                    <div class="col">
+                                                        <button type="button" data-bs-dismiss="modal" class="btn btn-outline-primary w-100">Cancel</button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"  @click="$store.canvas.removeObject()">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </main>
+        </div>
+
+       
+        
+        
+        <script src="dist/js/bootstrap.bundle.min.js" ></script>
+        <script src="dist/js/dragdrop.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/alpine-sortable@0.1.1/dist/alpine-sortable.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+        <script src="dist/js/fabricstore.js"></script>
+        <script src="dist/js/backgrounds.js"></script>
+        <script src="dist/js/shapes.js"></script>
+        <script src="dist/js/fonts.js"></script>
+        <script src="dist/js/colors.js"></script>
+        <script defer src="dist/js/canvas.js"></script>
+        
+        <script  src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
+
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
+        <script type="importmap">
+            {
+              "imports": {
+                "three": "https://unpkg.com/three@v0.153.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@v0.153.0/examples/jsm/"
+              }
+            }
+        </script>
+        <script defer type="module" src="dist/js/canvasto3d.js"></script>
+        <script src="dist/js/app.js"></script>
+
+    </body>
+</html>

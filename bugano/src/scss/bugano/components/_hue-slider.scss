@@ -1,0 +1,106 @@
+$track-h: 16px;
+$thumb-d: 18px;
+
+:root {
+    --hue: 50;
+    --color-alpha: hsl(var(--hue), 100%, 50%);
+}
+
+@mixin track() {
+	border: none;
+    cursor: pointer;
+	width: 100%; 
+    height: $track-h;
+	border-radius: 3px;
+    background: linear-gradient(
+        to right,
+        #ff0000 0%,
+        #ffff00 17%,
+        #00ff00 33%,
+        #00ffff 50%,
+        #0000ff 67%,
+        #ff00ff 83%,
+        #ff0000 100%
+    );
+}
+
+@mixin thumb() {
+    outline: 4px solid $white;
+    cursor: pointer;
+	width: $thumb-d; 
+    height: $thumb-d;
+	border-radius: 50%;
+    background: var(--color-alpha);
+}
+	
+
+.hue-range-slider {
+    width: 100%;
+    min-width: 173px;
+    margin: 0;
+    padding: 0;
+    min-height: $thumb-d;
+    background: transparent;
+    outline: none;
+
+    &, &::-webkit-slider-thumb {
+		-webkit-appearance: none;
+	}
+
+    &::-webkit-slider-runnable-track {
+		@include track();
+	}
+	&::-moz-range-track { @include track; }
+	&::-ms-track { @include track; }
+
+    &::-webkit-slider-thumb {
+		margin-top: .5*($track-h - $thumb-d);
+		@include thumb;
+	}
+	&::-moz-range-thumb { @include thumb; }
+	&::-ms-thumb {
+		margin-top: 0;
+		@include thumb;
+	}
+    &::-ms-tooltip { display: none }
+
+    &:hover,
+    &:focus,
+    &:active { 
+        + .hue-range-output {
+        opacity: 1;
+        //transform: translate(calc((var(--hue) / 360) * -50%), 0);
+        }
+    }
+}
+
+.hue-range-output {
+    opacity: 0;
+    position: absolute;
+    left: calc((var(--hue) / 360 * 100%));
+    margin-left: -(calc($thumb-d/2));
+    transform: translate(calc((var(--hue) / 360) * -50%), -5px);
+    width: $thumb-d * 2;
+    bottom: 100%;
+    padding: 4px;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    border-radius: 12px;
+    background-color: $gray-800;
+    color: white;
+    transition: opacity 0.6s;
+    &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: -4px;
+        left: 50%;
+        margin-left: -4px;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-width: 4px 4px 0 4px;
+        border-color: $gray-800 transparent transparent transparent;
+      }
+}

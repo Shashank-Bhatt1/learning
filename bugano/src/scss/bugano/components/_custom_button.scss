@@ -1,0 +1,61 @@
+.btn {
+    white-space: nowrap;
+}
+
+.btn-group > [hidden]:first-of-type + .btn {
+    border-radius: 0.2rem;
+}
+//add custom variants in our own customizations
+.btn-elegance-primary {
+    @include button-variant($theme-elegance-primary, $theme-elegance-primary);
+}
+.btn-outline-elegance-primary {
+    @include button-outline-variant($theme-elegance-primary);
+}
+.btn-elegance-light {
+    @include button-variant($theme-elegance-light, $theme-elegance-light);
+}
+.btn-primary-dark {
+    @include button-variant($primary-darkest, $primary-darkest);
+}
+.btn-gray-100 {
+    @include button-variant($gray-100, $gray-100);
+}
+.btn-outline-elegance-light {
+    @include button-outline-variant($theme-elegance-light);
+}
+.btn-outline-alt-secondary {
+    @include button-outline-variant($body-bg);
+}
+.btn-outline-gray {
+    @include button-outline-variant($gray-500);
+}
+.btn-black {
+    @include button-variant($black,$black);
+}
+
+
+//remove icon color if combined with outline variants
+@each $color, $value in $theme-colors {
+    .btn-outline-#{$color} {
+        &.btn-minimal {
+            i {
+                color: $value !important;
+            }
+            &:hover i {
+                color: color-contrast($value) !important
+            }
+        }
+        &.add-to-collection, &.remove-from-collection {
+            color: $value !important;
+            &:hover  {
+                color: color-contrast($value) !important
+            }
+        }
+    }
+}
+
+
+
+
+ 

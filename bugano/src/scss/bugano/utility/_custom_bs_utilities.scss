@@ -1,0 +1,74 @@
+@import '../../codebase/variables';
+@import '../../codebase/variables-themes';
+
+$utilities: map-merge(
+    $utilities,
+    (
+      "max-width": (
+          property: max-width,
+          class: mw,
+          values: (10: 10%,25: 25%,100: 100%)
+      ),
+      "opacity": (
+        property: opacity,
+        values: (
+          0: 0,
+          25: .25,
+          40: .40,
+          50: .5,
+          75: .75,
+          100: 1,
+        )
+      ),
+      "width": map-merge(
+        map-get($utilities, "width"),
+        (
+          values: map-merge(
+            map-get(map-get($utilities, "width"), "values"),
+            (max-content: max-content, 30: 30%)
+          ),
+        ),
+      ),
+      "border-color": map-merge(
+        map-get($utilities, "border-color"),
+        (
+          values: map-merge(
+            map-get(map-get($utilities, "border-color"), "values"),
+            ("elegance": $theme-elegance-primary, "elegance-light": $theme-elegance-light)
+          ),
+        ),
+      ),
+      "rounded": map-merge(
+        map-get($utilities, "rounded"),
+        (
+          values: map-merge(
+            map-get(map-get($utilities, "rounded"), "values"),
+            (4:  $border-radius-xl, 5: $border-radius-xxl)
+          ),
+        ),
+      ),
+      "z-index": (
+        property: z-index,
+        values: (1:1, 2:2, 3:3, 4:4, 5:5, auto: auto)
+      ),
+      "font-size": map-merge(
+        map-get($utilities, "font-size"),
+        (
+          values: map-merge(
+            map-get(map-get($utilities, "font-size"), "values"),
+            ('md': $font-size-md,'xxs': $font-size-xxs)
+          ),
+        ),
+      ),
+      "cursor": (
+        property: cursor,
+        class: cursor,
+        values: pointer none not-allowed no-drop default text
+      ),
+    )
+);
+      
+      
+      
+
+

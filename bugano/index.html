@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <title>Bugano select product</title>
+        
+        <style>
+            [x-cloak] {
+                display: none !important;
+            }
+        </style>
+        
+        <link rel="stylesheet" href="dist/css/slick.css" />
+        <link rel="stylesheet" href="dist/css/slick-theme.css" />
+        <!-- <link rel="stylesheet" id="css-main" href="dist/css/app.css" /> -->
+        <link rel="stylesheet" id="css-main" href="dist/css/bugano-main.css" />
+        <link rel="stylesheet" id="css-main" href="dist/css/bugano-custom.css" />
+        
+        
+       
+        <script src="dist/js/jquery.min.js"></script>
+        
+        <script src="https://kit.fontawesome.com/ed99b80982.js" crossorigin="anonymous"></script>
+    </head>
+
+    <body>
+        <div id="page-container" class="side-scroll page-header-modern">
+            <main id="main-container">
+                <div id="main-container__inner">
+                    <div class="container container-xxxl container-main">
+                        <div class="logo-section row">
+                            <div class="col-lg-6 col-xl col-xxxl-7">
+                                <div class="d-flex align-items-center">
+                                    <div class="logo-section__logo me-2">
+                                        <a href="javascript:void(0)" class="d-block">
+                                            <img src="images/logo.png" class="img-fluid" alt="bugani logo" width="386" height="80"/>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 editor-interface__right col-xxxl-5"></div>
+                        </div>
+                        <div class="editor-interface row position-relative z-index-1">
+                            <div class="col-12">
+                                <div class="editor-interface__left">
+                                    <div class="editor-interface__left__secttion mb-5">
+                                        <p>Select a Product to start customizing it now!</p>
+                                        <div class="product-block-slider d-flex" id="product-block-slider" x-data="{
+                                                selectedProduct: ''
+                                            }">
+                                            <div class="product-block__slide d-flex flex-column me-md-4" @click.stop="() => {
+                                                selectedProduct = 'gr-6';
+                                                $store.canvas.selectedProduct = 'gr-6'
+                                            }"
+                                                @click.outside="selectedProduct = ''">
+                                                <div class="block block-rounded product-block mb-0 flex-grow-1" :class="selectedProduct === 'gr-6' ? 'border border-4 border-primary':''">
+                                                    <div class="block-content block-content-full">
+                                                        <h2 class="product-block__title text-primary">
+                                                            <span class="product-block__title__underline">Vulkan</span> Gr.6
+                                                        </h2>
+                                                        <p>Enim ullamco aliquip ad consectetur magna occaecat.</p>
+                                                        <div class="product-block__image">
+                                                            <img class="img-fluid" src="images/gr-6.png" alt="" />
+                                                        </div>
+                                                        <div class="product-block__button">
+                                                            <button type="button" class="btn btn-primary product-block__btn shadow-none" :class="selectedProduct === 'gr-6' ? 'product-block__btn__selected':''">
+                                                                <span>from CHF</span>
+                                                                <span class="fw-bold">99.</span>-
+                                                                <span class="product-block__btn__left__inverted"></span>
+                                                                <span class="product-block__btn__right__inverted"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-block__slide d-flex flex-column" @click.stop="() => {
+                                                selectedProduct = 'gr-7';
+                                                $store.canvas.selectedProduct = 'gr-7'
+                                            }"
+                                                @click.outside="selectedProduct = ''">
+                                                <div class="block block-rounded product-block mb-0 flex-grow-1" :class="selectedProduct === 'gr-7' ? 'border border-4 border-elegance-light':''">
+                                                    <div class="block-content block-content-full">
+                                                        <h2 class="product-block__title text-elegance-primary">
+                                                            <span class="product-block__title__underline">Vulkan</span> Gr.7
+                                                        </h2>
+                                                        <p>Enim ullamco aliquip ad consectetur magna occaecat.</p>
+                                                        <div class="product-block__image">
+                                                            <img class="img-fluid" src="images/gr-7.png" alt="" />
+                                                        </div>
+                                                        <div class="product-block__button">
+                                                            <button type="button" class="btn btn-elegance-light product-block__btn text-elegance-primary shadow-none" :class="selectedProduct === 'gr-7' ? 'product-block__btn__selected':''">
+                                                                <span>from CHF</span>
+                                                                <span class="fw-bold">249.</span>-
+                                                                <span class="product-block__btn__left__inverted"></span>
+                                                                <span class="product-block__btn__right__inverted"></span>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </main>
+        </div>
+        
+        
+        <script src="dist/js/bootstrap.bundle.min.js" ></script>
+        <script src="dist/js/dragdrop.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+        <script src="dist/js/fabricstore.js"></script>
+
+        
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
+        <script src="dist/js/app.js"></script>
+        <script type="text/javascript" src="dist/js/slick.min.js"></script>
+
+        
+        
+        
+
+
+        <script>
+            $(function () {
+                $('#product-block-slider').not('.slick-initialized').slick({
+                    arrows: true,
+                    margin: 10,
+                    infinite: false,
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    prevArrow: '<a class=\'slick-arrow slick-arrow-previous position-absolute top-100 mt-5 \' href=\'javascript:void(0)\'><i class=\'far fa-arrow-left\'></i></a>',
+                    nextArrow: '<a class=\'slick-arrow slick-arrow-next position-absolute top-100 mt-5\' href=\'javascript:void(0)\'><i class=\'far fa-arrow-right\'></i></a>',
+                    responsive: [
+                        {
+                            breakpoint: 6000,
+                            settings: "unslick",
+                        },
+                        {   
+                            breakpoint: 767,
+                            settings: {
+                                slidesToShow: 1,
+                                slidesToScroll: 1
+                            }
+                        }
+                    ]
+                });
+            })
+            
+            
+
+        </script>
+    </body>
+</html>

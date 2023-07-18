@@ -1,0 +1,139 @@
+//
+// Custom Variables
+//
+// Here you can add your own variables overrides
+//
+// The file is included before any other variable file,
+// so you can override them because they all use !default
+// --------------------------------------------------
+
+// For example, changing the primary color
+// $primary: #3b5998;
+$enable-negative-margins: true;
+
+$primary: #312783;
+$warning: #F39C12;
+$danger: #ED1C24;
+$success: #0F803A;
+$primary-darkest: #271F69;
+$theme-elegance-primary: #5A1973;
+$theme-elegance-light: #E2DCE7;
+$body-color: #000;
+$body-bg: #F2F3F4;
+
+$gray-100: #F5F5F6;
+$gray-200:#E4E5E6;
+$gray-400:#D9DADB;
+$gray-500: #BCBCBC;
+$gray-600: #707070;
+
+
+
+$font-family-base: "Work Sans", "sans-serif";
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+  xxxl: 1800px
+);
+
+
+
+$container-max-widths: (
+  sm: 100%,
+  md: 100%,
+  lg: 100%,
+  xl: 1140px,
+  xxl: 1320px,
+  xxxl: 1788px
+);
+
+
+
+
+//input ND button combined variables
+
+$input-btn-focus-box-shadow: none;
+
+
+//input variables
+
+$input-border-width: 3px;
+$input-focus-border-color: $primary;
+$input-border-color: transparent;
+$input-border-radius: 10px;
+$input-padding-y: 18px;
+$input-padding-x: 17px;
+$input-line-height: 1.1;
+//placeholder
+
+$input-placeholder-color: $primary;
+
+
+
+
+//buttons
+$btn-line-height: 1.12;
+$btn-padding-y: 17px;
+$btn-padding-x: 17px;
+$btn-border-radius: 10px;
+$btn-padding-y-lg: 1rem;
+$btn-border-radius-lg: 10px;
+
+
+
+
+
+//codebase override
+$space-block: 30px;
+$space-mobile: 1.75rem;
+$aspect-ratios: (
+  "1x1": 100%,
+  "4x3": calc(3 / 4 * 100%),
+  "16x9": calc(9 / 16 * 100%),
+  "21x9": calc(9 / 21 * 100%),
+  "2x1": calc(1 / 2 * 100%),
+  "background": 67%
+) !default;
+
+$simple-line-font-path: "../../fonts/simple-line-icons/";
+
+
+//custom variables
+
+$shop-status-closed: #CC291F;
+$shop-status-open: #1FCC45;
+$shop-status-opening: #E79924;
+
+
+$custom-grey: #666;
+$custom-grey-light: #B2B3B6;
+
+
+
+$table-color: #666;
+$table-hover-bg: #F2F9FF;
+
+$low-probability: #ff5858;
+$medium-probability: #ffa457;
+$high-probability: #ffc800;
+$highest-probability: #1bbba5;
+$custom-grey: #666;
+$custom-grey-light: #B2B3B6;
+
+
+
+//new border
+$border-radius-xxs: .15rem;
+$border-radius-xl: .4rem;
+$border-radius-xxl: .625rem;
+
+//new font sizes
+
+$font-size-xxs: 10px;
+$font-size-md: 15px;
+$font-size-xxs: 0.625rem;

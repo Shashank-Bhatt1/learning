@@ -1,0 +1,42 @@
+// importing variables and functions
+@import "bootstrap/functions";
+// User variables (your own variable overrides)
+@import "bugano/variables";
+// Custom Bootstrap variables overrides
+@import "codebase/variables-bootstrap";
+// Bootstrap variables
+@import "bootstrap/variables";
+// Bootstrap mixins
+@import "bootstrap/mixins";
+// Custom mixins and Bootstrap overrides
+@import "codebase/mixins";
+// Bootstrap Utilities
+@import "bootstrap/utilities";
+// Custom utilities and Bootstrap overrides
+@import "codebase/utilities";
+@import "bugano/utility/custom_bs_utilities";
+// Custom variables
+@import "codebase/variables";
+@import "codebase/variables-themes";
+
+
+//customization
+
+
+
+@import "bugano/components/custom_button";
+@import "bugano/components/_custom_tabs.scss";
+@import "bugano/components/_custom_image_upload";
+@import "bugano/components/_slick_customization.scss";
+@import "bugano/components/_hue-slider.scss";
+@import "bugano/components/_canvas.scss";
+@import "bugano/components/_common";
+
+@import "bugano/pages/_main_screen";
+@import "bugano/pages/editor";
+
+@import "bugano/_custom-fonts";
+@import "bugano/_custom-icons";
+
+@import "bugano/utility/custom_bg";
+@import "bugano/utility/custom-text";
