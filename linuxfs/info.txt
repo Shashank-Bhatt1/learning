@@ -1,0 +1,53 @@
+1. if you ever encountered the error like 
+
+unable to create directory/file permission denied due to read only file system then you can make read only system writable with following command
+
+
+=> If a filesystem has been mounted read-only, chmod will not work since it's a write operation too.
+
+Try remounting it read-write:
+
+sudo mount -o remount,rw '/media/abc/New Volume'
+
+
+=>If the device has a write lock on it (like SD memory cards), you need to turn it off. Hardware locks cannot be disabled by software. Note that the write lock on SD memory cards is located from the sight you see the letters near the up left corner and it looks like a very small switch.
+
+Some filesystem drivers may also not support write operations, this is the case with the older NTFS module supported by Linux. For NTFS filesystems, be sure to use the ntfs-3g driver which should be picked automatically nowadays. If not, you can force the driver with something like:
+
+sudo mount -t ntfs-3g -o uid=$(id -u) /dev/sdb1 /mnt/
+
+
+
+=> Also you can try this command. Make sure to close every window instance before running this.
+
+sudo ntfsfix /dev/sda3
+
+Please replace /dev/sda3 with your own device name.
+
+=> After this, restart the ubuntu if not working.
+
+
+2.If you start the lamp server and immediately getting error like 
+
+XAMPP: Stopping Apache...Fail.
+
+then you need to disable the default apache service that comes preinstalled with the ubuntu from starting during boot.
+
+sudo systemctl disable apache2
+
+Found at link - https://askubuntu.com/questions/170640/how-do-i-stop-apache2-from-automatically-starting-on-boot
+
+
+3. Update sublime text in ubuntu from linux repositories.
+
+Link founded at - https://www.sublimetext.com/docs/linux_repositories.html
+
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+
+sudo apt-get install apt-transport-https
+
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+
+sudo apt-get update
+
+sudo apt-get install sublime-text
