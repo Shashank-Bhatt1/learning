@@ -1,0 +1,10 @@
+/node_modules/*
+/row-graphics/*
+#/src/*
+#/fonts/*
+#/webfonts/*
+#/webpack.config.js
+#/package.json
+#/package-lock.json
+#/.gitignore
+/Configurator.xd
