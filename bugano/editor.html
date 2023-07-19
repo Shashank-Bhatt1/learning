@@ -16,7 +16,15 @@
         <link rel="stylesheet" id="css-main" href="dist/css/bugano-main.css" />
         <link rel="stylesheet" id="css-main" href="dist/css/bugano-custom.css" />
         
-        
+        <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+        <script type="importmap">
+            {
+              "imports": {
+                "three": "https://unpkg.com/three@v0.153.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@v0.153.0/examples/jsm/"
+              }
+            }
+        </script>
         
        
         <script src="dist/js/jquery.min.js"></script>
@@ -759,9 +767,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="block bg-transparent position-relative">
-                                                    <div class="editor-interface__scroll__inner ps-3">
-                                                        <template x-for="(layer,index) in $store.canvas.layers" :key="layer.id">
-                                                            <div class="d-flex border p-3 rounded-5 align-items-center layerblock position-relative mb-3" :class="layer.color">
+                                                    <div class="editor-interface__scroll__inner ps-3" id="layers" x-data="{
+                                                        layers: $store.canvas.layers
+                                                    }" @sort-objects-from-layer.window="$store.canvas.sortFromLayers($event.detail.objSortArray,$event.detail.sortable)">
+                                                        <template data-layer-id="ignore" x-for="(layer,index) in layers" :key="layer.id">
+                                                            <div  class="d-flex border p-3 rounded-5 align-items-center layerblock position-relative mb-3" 
+                                                                :class="layer.color" :data-layer-id="layer.id">
                                                                 <span class="layernum" x-text="layer.idNumeric + 1" :class="'bg-' + layer.color"></span>
                                                                 <div class="me-4 ms-3">
                                                                     <div class="img-avatar img-avatar64">
@@ -892,30 +903,37 @@
         
         
         <script src="dist/js/bootstrap.bundle.min.js" ></script>
-        <script src="dist/js/dragdrop.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/alpine-sortable@0.1.1/dist/alpine-sortable.min.js"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
+        <script src="dist/js/alpinedata.js"></script>
+        
+        
         <script src="https://cdn.jsdelivr.net/npm/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
         <script src="dist/js/fabricstore.js"></script>
-        <script src="dist/js/backgrounds.js"></script>
-        <script src="dist/js/shapes.js"></script>
-        <script src="dist/js/fonts.js"></script>
-        <script src="dist/js/colors.js"></script>
-        <script defer src="dist/js/canvas.js"></script>
         
         <script  src="https://unpkg.com/fabric@5.3.0/dist/fabric.min.js"></script>
-
-        
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.0/dist/cdn.min.js"></script>
-        <script type="importmap">
-            {
-              "imports": {
-                "three": "https://unpkg.com/three@v0.153.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@v0.153.0/examples/jsm/"
-              }
-            }
-        </script>
+        
         <script defer type="module" src="dist/js/canvasto3d.js"></script>
         <script src="dist/js/app.js"></script>
-
+        <script>
+            var el = document.getElementById('layers');
+            var sortable = Sortable.create(el,{
+                // forceFallback: true,
+                handle: '.layerblock',
+                dataIdAttr: 'data-layer-id',
+                onUpdate(event) {
+                    
+                    const objSortArray = sortable.toArray().filter(item => item !== 'ignore');
+                    window.dispatchEvent(new CustomEvent('sort-objects-from-layer', {
+                        detail: {
+                            objSortArray: objSortArray.reverse(),
+                            sortable: sortable
+                        }
+                    }))
+                }
+            });
+        </script>
     </body>
 </html>

@@ -155,11 +155,30 @@
 ///layers
 /// 
 .layerblock {
+    cursor: move;
     &.danger {
-        border-color: rgba($color: $danger, $alpha: 0.1) !important
+        border-color: rgba($color: $danger, $alpha: 0.1) !important;
+        &.sortable-chosen {
+            background-color: rgba($color: $danger, $alpha: 0.6);
+        }
     }
     &.success {
-        border-color: rgba($color: $success, $alpha: 0.1) !important
+        border-color: rgba($color: $success, $alpha: 0.1) !important;
+        &.sortable-chosen {
+            background-color: rgba($color: $success, $alpha: 0.6);
+        }
+    }
+    &.primary {
+        border-color: rgba($color: $primary, $alpha: 0.1) !important;
+        &.sortable-chosen {
+            background-color: rgba($color: $primary, $alpha: 0.6);
+        }
+    }
+    &.black {
+        border-color: rgba($color: #000000, $alpha: 0.1) !important;
+        &.sortable-chosen {
+            background-color: rgba($color: #000000, $alpha: 0.6);
+        }
     }
 }
 .layernum {

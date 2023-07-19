@@ -492,11 +492,32 @@
   }
 }
 
+.layerblock {
+  cursor: move;
+}
 .layerblock.danger {
   border-color: rgba(237, 28, 36, 0.1) !important;
 }
+.layerblock.danger.sortable-chosen {
+  background-color: rgba(237, 28, 36, 0.6);
+}
 .layerblock.success {
   border-color: rgba(15, 128, 58, 0.1) !important;
+}
+.layerblock.success.sortable-chosen {
+  background-color: rgba(15, 128, 58, 0.6);
+}
+.layerblock.primary {
+  border-color: rgba(49, 39, 131, 0.1) !important;
+}
+.layerblock.primary.sortable-chosen {
+  background-color: rgba(49, 39, 131, 0.6);
+}
+.layerblock.black {
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+.layerblock.black.sortable-chosen {
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .layernum {

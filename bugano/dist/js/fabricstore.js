@@ -102,7 +102,7 @@ document.addEventListener('alpine:init', () => {
                         left: clonedCanvas.width * product.tagImageLeft/100,
                         top: clonedCanvas.height - img.getScaledHeight()  
                     })
-                    img.set({zIndex: 15})
+                    img.set({zIndex: 1000})
                     clonedCanvas.add(img)
 
                     const url = clonedCanvas.toDataURL({
@@ -160,7 +160,7 @@ document.addEventListener('alpine:init', () => {
                 self.setCenter(img);
                 self.preventInteraction(img)
                 canvas.sendToBack(img)
-                img.set({excludeFromExport: true, zIndex: 0})
+                img.set({excludeFromExport: true, zIndex: -1})
                 canvas.add(img)
                 
             })
@@ -192,7 +192,7 @@ document.addEventListener('alpine:init', () => {
                 self.preventInteraction(img)
                 img.set({
                     excludeFromExport: true,
-                    zIndex: 15})
+                    zIndex: 1000})
                 canvas.add(img)
             })
         },
@@ -202,7 +202,7 @@ document.addEventListener('alpine:init', () => {
                 self.fitImageInCanvas(img, canvas);
                 self.setCenter(img);
                 self.preventInteraction(img)
-                img.set({excludeFromExport: true, zIndex: 15})
+                img.set({excludeFromExport: true, zIndex: 1000})
                 canvas.add(img)
             })
         },
@@ -250,29 +250,33 @@ document.addEventListener('alpine:init', () => {
             const self = this;
             canvas.on('object:added',function(options) {
                 const currentObj = options.target;
-                currentObj.id = 'layer-' + self.currentLayerId;
-                
-                
+                currentObj.set({
+                    id: 'layer-' + self.currentLayerId
+                });
 
                 self.removeObjectControls(currentObj)
                 if(currentObj.name === 'shape') {
                     currentObj.scaleToWidth(canvas.width/10 <= 50 ? 50 : canvas.width/10);
 
-                    self.layers.push({
+                    self.layers.unshift({
                         id: currentObj.id,
                         idNumeric: self.currentLayerId,
+                        zIndex: self.currentLayerId,
                         imageUrl: currentObj.getSrc(),
                         type: 'motive',
                         color: self.layerColors[self.currentLayerId%self.layerColors.length]
                     })
                     self.currentLayerId++;
+                    
+                    
                 }
                 if(currentObj.name === 'label') {
                     const size = Math.max(parseInt(canvas.width/25), 22);
                     currentObj.set("fontSize", size)
-                    self.layers.push({
+                    self.layers.unshift({
                         id: currentObj.id,
                         idNumeric: self.currentLayerId,
+                        zIndex: self.currentLayerId,
                         type: 'text',
                         color: self.layerColors[self.currentLayerId%self.layerColors.length]
                     })
@@ -283,10 +287,13 @@ document.addEventListener('alpine:init', () => {
                 currentObj.setCoords().saveState();
 
                 if(currentObj.name !== 'bgimage') {
-                    currentObj.set({clipPath: img, zIndex: 2 });
+                    currentObj.set({clipPath: img, zIndex: self.currentLayerId });
                 } else {
-                    currentObj.set({zIndex: 0 });
+                    currentObj.set({zIndex: -2 });
                 }
+
+                
+                
                 self.sortObjects(canvas);
                 
                 //canvas.bringToFront(currentObj).renderAll();
@@ -462,6 +469,7 @@ document.addEventListener('alpine:init', () => {
             });
         },
         initFabricCanvas() {
+
             const canvas = window.__canvas = new fabric.Canvas('product-canvas', {
                 preserveObjectStacking: true,
                 uniformScaling: true,
@@ -494,7 +502,7 @@ document.addEventListener('alpine:init', () => {
                 width: 50,
                 height: 50,
                 statefullCache: true,
-                zIndex: 2
+                zIndex: self.currentLayerId
             });
             
             this.getObjectsClipPathImg(canvas).then(function(img){
@@ -529,7 +537,7 @@ document.addEventListener('alpine:init', () => {
                 img.set({
                     left: leftOffset,
                     top: topOffset,
-                    name: 'bgimage'
+                    name: 'bgimage',
                 });
                 canvas.backgroundImage = img;
                 //canvas.add(img);
@@ -537,6 +545,17 @@ document.addEventListener('alpine:init', () => {
                 canvas.renderAll();
             })
                 
+        },
+        sortFromLayers(layers,sortable) {
+            console.log(sortable);
+            layers.forEach(function(layer,layerIndex,layers) {
+                window.__canvas.getObjects().forEach(function(obj) {
+                    if(obj.id === layer) {
+                      layer.zIndex = obj.zIndex = layerIndex;
+                    }
+                })
+            })
+            this.sortObjects(window.__canvas);
         },
         sortObjects(canvas) {
             canvas._objects.sort((a, b) => (a.zIndex > b.zIndex) ? 1 : -1);
