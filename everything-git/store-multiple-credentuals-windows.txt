@@ -19,3 +19,30 @@ git config --local credential.username "your_github_username"
 -> After you login, new entry with your credentials will be added in git credentails manager and you will be able to push to your different repo.
 
 
+-> If you use https protocal then you will need to follow this answer
+
+https://stackoverflow.com/questions/3860112/multiple-github-accounts-on-the-same-computer
+
+update the remote url as per this noration - https://USERNAME@github.com/USERNAME/PROJECTNAME.git
+
+we can use this command
+
+git remote set-url origin https://USERNAME@github.com/USERNAME/PROJECTNAME.git
+
+-> If you use ssh protocol then you can follow the first answer from this question
+
+https://stackoverflow.com/questions/3860112/multiple-github-accounts-on-the-same-computer
+
+or this article
+
+https://medium.com/@pinglinh/how-to-have-2-github-accounts-on-one-machine-windows-69b5b4c5b14e
+
+
+
+
+==NOTE: POSSIBLE ERROR===
+
+for ssh-add user agent error - SSH-ADD / Windows / Could not open a connection to your authentication agent. #17
+
+https://github.com/ritazh/devopsfun/issues/17
+
