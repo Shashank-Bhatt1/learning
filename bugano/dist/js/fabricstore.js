@@ -242,8 +242,6 @@ document.addEventListener('alpine:init', () => {
                 }
             })
         },
-       
-        layerColors: ['danger','black','success','primary'],
         layers: [],
         currentLayerId: 0,
         objectAddEvents(canvas,img) {
@@ -263,8 +261,7 @@ document.addEventListener('alpine:init', () => {
                         idNumeric: self.currentLayerId,
                         zIndex: self.currentLayerId,
                         imageUrl: currentObj.getSrc(),
-                        type: 'motive',
-                        color: self.layerColors[self.currentLayerId%self.layerColors.length]
+                        type: currentObj.name,
                     })
                     self.currentLayerId++;
                     
@@ -277,8 +274,8 @@ document.addEventListener('alpine:init', () => {
                         id: currentObj.id,
                         idNumeric: self.currentLayerId,
                         zIndex: self.currentLayerId,
-                        type: 'text',
-                        color: self.layerColors[self.currentLayerId%self.layerColors.length]
+                        type: currentObj.name,
+                        text: currentObj.text
                     })
                     self.currentLayerId++;
                 }
@@ -500,6 +497,7 @@ document.addEventListener('alpine:init', () => {
                 name: 'label',
                 fill: 'red',
                 width: 50,
+                text: 'Initial Rectangle',
                 height: 50,
                 statefullCache: true,
                 zIndex: self.currentLayerId

@@ -57,7 +57,7 @@
                         </div>
                         <div class="editor-interface row gx-0 gx-xl-3 position-relative z-index-1" x-data="{
                                 productBlockVisibleMobile: true,
-                                activeTab: 'layer',
+                                activeTab: 'label',
                                 init() {
                                     this.$watch('productBlockVisibleMobile', (value, oldValue)=> {
                                         
@@ -608,16 +608,16 @@
                                                         <span class="innerpopup-block__drag__handle d-lg-none" @click="hideConfigurationBlock()">
                                                             <a href="javascript:void(0)" class="innerpopup-block__drag__link"></a>
                                                         </span>
-                                                        <div class="row gy-2">
-                                                            <div class="col-auto">
+                                                        <div class="colorpickerwrapper">
+                                                            <div class="colorpickerwrapper__left">
                                                                 <div id="canvas-holder" x-data="colorpicker" 
                                                                     x-bind="wrapper">
                                                                     <canvas id="colorpicker"></canvas>
                                                                     <div id="colorpicker-circle"></div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col">
-                                                                <div>
+                                                            <div class="colorpickerwrapper__right ">
+                                                                <div class="colorpickerwrapper__right__inner">
                                                                     <div class="d-flex align-items-center mb-2">
                                                                         <div class="me-2">
                                                                             <a class="btn editor-interface__square" :style="{backgroundColor: selectedColor,
@@ -630,21 +630,86 @@
                                                                             <output class="hue-range-output" for="hue" :value="hue + '°'"></output>
                                                                         </div>
                                                                     </div>
-                                                                    <div class="row">
+                                                                    <div class="d-flex colorpicker-input-section">
                                                                         <div class="col-4">
-                                                                            <input type="number" class="form-control form-control-alt text-center" alt="" x-model="red" min="0" max="255"
-                                                                                maxlength="3" step="1" id="red" @input="updateHueFromRGB()"
-                                                                                @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})" />
+                                                                            <div class="form-group">
+                                                                                <input type="number" class="form-control text-center" x-model="red" min="0" max="255"
+                                                                                    maxlength="3" step="1" id="red" @input="updateColorsInOtherModes('rgb')"
+                                                                                    @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})" />
+                                                                                <div class="text-center fw-bold mt-1"><label class="text-primary" for="red">R</label></div>
+                                                                            </div>
                                                                         </div>
                                                                         <div class="col-4">
-                                                                            <input type="number" class="form-control form-control-alt text-center" alt="" x-model="green" min="0" max="255"
-                                                                                maxlength="3" step="1"  id="green" @input="updateHueFromRGB()" 
-                                                                                @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})" />
+                                                                            <div class="form-group">
+                                                                                <input type="number" class="form-control text-center" x-model="green" min="0" max="255"
+                                                                                    maxlength="3" step="1"  id="green" @input="updateColorsInOtherModes('rgb')" 
+                                                                                    @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})" />
+                                                                                <div class="text-center fw-bold mt-1"><label class="text-primary" for="green">G</label></div>
+                                                                            </div>
                                                                         </div>
                                                                         <div class="col-4">
-                                                                            <input type="number" class="form-control form-control-alt text-center" alt="" x-model="blue" min="0" max="255"
-                                                                                maxlength="3" step="1"  id="blue" @input="updateHueFromRGB()" 
-                                                                                @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})" />
+                                                                            <div class="form-group">
+                                                                                <input type="number" class="form-control text-center" x-model="blue" min="0" max="255"
+                                                                                    maxlength="3" step="1"  id="blue" @input="updateColorsInOtherModes('rgb')" 
+                                                                                    @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})" />
+                                                                                <div class="text-center fw-bold mt-1"><label class="text-primary" for="blue">B</label></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="colorpicker-radius-section">
+                                                                        <div class="colorpicker-radius-section__inner"></div>
+                                                                    </div>
+                                                                    <div class="d-flex  colorpicker-input-section">
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <input type="number" class="form-control text-center" x-model="cyan" id="cyan" 
+                                                                                    @input="updateColorsInOtherModes('cmyk')"
+                                                                                    @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})"
+                                                                                    min="0" max="100"  />
+                                                                                <div class="text-center fw-bold mt-1"><label class="text-primary" for="cyan">C</label></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <input type="number" class="form-control text-center" x-model="magenta" id="magenta"
+                                                                                    @input="updateColorsInOtherModes('cmyk')"
+                                                                                    @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})"
+                                                                                    min="0" max="100"  />
+                                                                                <div class="text-center fw-bold mt-1"><label class="text-primary" for="magenta">M</label></div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <input type="number" class="form-control text-center" x-model="yellow" id="yellow"
+                                                                                    @input="updateColorsInOtherModes('cmyk')"
+                                                                                    @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})"
+                                                                                    min="0" max="100"  />
+                                                                                <div class="text-center fw-bold mt-1"><label class="text-primary" for="yellow">Y</label></div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col">
+                                                                            <div class="form-group">
+                                                                                <input type="number" class="form-control text-center" x-model="key" id="key"
+                                                                                    @input="updateColorsInOtherModes('cmyk')"
+                                                                                    @change.debounce.100ms="$dispatch('color-updated',{h: hue,s:saturation,l:lightness})"
+                                                                                    min="0" max="100"  />
+                                                                                <div class="text-center fw-bold mt-1"><label class="text-primary" for="key">K</label></div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="colorpicker-radius-section">
+                                                                        <div class="colorpicker-radius-section__inner"></div>
+                                                                    </div>
+                                                                    <div class="d-flex colorpicker-input-section">
+                                                                        <div class="form-group w-100">
+                                                                            <input type="text" class="form-control text-center" x-model="hex" id="hex"
+                                                                            placeholder="#HEX"
+                                                                            @input="updateColorsInOtherModes('hex')"
+                                                                            @change.debounce.100ms="() => {
+                                                                                hexCheck();
+                                                                                $dispatch('color-updated',{h: hue,s:saturation,l:lightness})
+                                                                            }" />
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -773,25 +838,29 @@
                                                         <template data-layer-id="ignore" x-for="(layer,index) in layers" :key="layer.id">
                                                             <div  class="d-flex border p-3 rounded-5 align-items-center layerblock position-relative mb-3" 
                                                                 :class="layer.color" :data-layer-id="layer.id">
-                                                                <span class="layernum" x-text="layer.idNumeric + 1" :class="'bg-' + layer.color"></span>
+                                                                <span class="layernum" x-text="layer.idNumeric + 1"></span>
                                                                 <div class="me-4 ms-3">
                                                                     <div class="img-avatar img-avatar64">
                                                                         <div class="d-flex align-items-center justify-content-center border border-2 rounded-5 w-100 h-100">
-                                                                            <template x-if="layer.type === 'motive'">
+                                                                            <template x-if="layer.type === 'shape'">
                                                                                 <img class="img-contain" :src="layer.imageUrl" alt="" width="40" height="40" />
                                                                             </template>
-                                                                            <template x-if="layer.type === 'text'">
-                                                                                <span class="fa-xl fa-solid fa-text" :class="[layer.imageUrl, 'text-' + layer.color]"></span>
+                                                                            <template x-if="layer.type === 'label'">
+                                                                                <span class="fa-xl fa-solid fa-text"></span>
                                                                             </template>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="flex-grow-1">
-                                                                    <span class="mb-0 h3" :class="'text-' + layer.color">Layer <span x-text="'#' + (layer.idNumeric + 1)"></span></span>
-                                                                    <span class="mx-3 opacity-50" :class="'text-' + layer.color"><i class="fa-solid fa-circle-small fa-2xs"></i></span>
-                                                                    <span class="opacity-50 text-uppercase" :class="'text-' + layer.color">
-                                                                        <span>TYPE:</span>
-                                                                        <span x-text="layer.type"></span>
+                                                                <div class="flex-grow-1 d-flex align-items-center">
+                                                                    <span class="mb-0 h3 layertext" >Layer <span x-text="'#' + (layer.idNumeric + 1)"></span></span>
+                                                                    <span class="mx-3 opacity-50" ><i class="fa-solid fa-circle-small fa-2xs"></i></span>
+                                                                    <span class="opacity-50 text-uppercase" >
+                                                                        <template x-if="layer.type === 'shape'">
+                                                                            <span>Motive</span>
+                                                                        </template>
+                                                                        <template x-if="layer.type === 'label'">
+                                                                            <span x-text="layer.text"></span>
+                                                                        </template>
                                                                     </span>
                                                                     
                                                                 </div>
@@ -903,8 +972,12 @@
         
         
         <script src="dist/js/bootstrap.bundle.min.js" ></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js" 
+            integrity="sha512-zInFF17qBFVvvvFpIfeBzo7Tj7+rQxLeTJDmbxjBz5/zIr89YVbTNelNhdTT+/DCrxoVzBeUPVFJsczKbB7sew==" 
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+        <script src="dist/js/color-utilities.js"></script>
 
         <script src="dist/js/alpinedata.js"></script>
         

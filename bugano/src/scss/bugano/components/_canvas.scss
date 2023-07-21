@@ -51,6 +51,58 @@
     border-radius: 10px;
 }
 
+.colorpickerwrapper {
+    border-radius: 10px;
+    display: flex;
+
+    &__left {
+        padding-left: 8px;
+        padding-top: 8px;
+        background-color: #E8E7F0;
+    }
+    &__right {
+        padding-left: 8px;
+        background-color: #E8E7F0;
+
+        &__inner {
+            background-color: $white;
+        }
+    }
+
+
+    .form-control{
+        background-color: $body-bg;
+    }
+    .form-group {
+        label {
+            opacity: 0.6;
+        }
+        input:focus ~ div label {
+            opacity: 1;
+        }
+    }
+
+   
+}
+.colorpicker-input-section {
+    background-color: #E8E7F0;
+    padding: 8px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.colorpicker-radius-section {
+    padding: 0px 0px 0px 4px;
+    background-color: #E8E7F0;
+    &__inner {
+        height: 20px;
+        background-color: $white;
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+    }
+}
+
+
 #colorpicker-circle {
     width: 20px;
     height: 20px;
@@ -61,7 +113,7 @@
     border-radius: 100%;
     border: 2px solid white;
     transform: translate(-50%, -50%);
+}
     
 
     
-}

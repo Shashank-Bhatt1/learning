@@ -156,42 +156,34 @@
 /// 
 .layerblock {
     cursor: move;
-    &.danger {
-        border-color: rgba($color: $danger, $alpha: 0.1) !important;
-        &.sortable-chosen {
-            background-color: rgba($color: $danger, $alpha: 0.6);
+
+    border-color: rgba($color: #000000, $alpha: 0.1) !important;
+    &.sortable-chosen {
+        background-color: rgba($color: $primary, $alpha: 0.6);
+        color: $white;
+        .layernum {
+            background-color: $primary;
         }
     }
-    &.success {
-        border-color: rgba($color: $success, $alpha: 0.1) !important;
-        &.sortable-chosen {
-            background-color: rgba($color: $success, $alpha: 0.6);
-        }
-    }
-    &.primary {
-        border-color: rgba($color: $primary, $alpha: 0.1) !important;
-        &.sortable-chosen {
-            background-color: rgba($color: $primary, $alpha: 0.6);
-        }
-    }
-    &.black {
-        border-color: rgba($color: #000000, $alpha: 0.1) !important;
-        &.sortable-chosen {
-            background-color: rgba($color: #000000, $alpha: 0.6);
-        }
+
+    
+
+    .layernum {
+        position: absolute;
+        background-color: #000000;
+        border-radius: 100%;
+        color: $white;
+        left: -14px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 28px;
+        height: 28px;
+        padding-bottom: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
     }
 }
-.layernum {
-    position: absolute;
-    border-radius: 100%;
-    color: $white;
-    left: -14px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 28px;
-    height: 28px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-}
+
+    

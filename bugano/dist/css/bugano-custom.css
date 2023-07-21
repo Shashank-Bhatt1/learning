@@ -494,34 +494,18 @@
 
 .layerblock {
   cursor: move;
-}
-.layerblock.danger {
-  border-color: rgba(237, 28, 36, 0.1) !important;
-}
-.layerblock.danger.sortable-chosen {
-  background-color: rgba(237, 28, 36, 0.6);
-}
-.layerblock.success {
-  border-color: rgba(15, 128, 58, 0.1) !important;
-}
-.layerblock.success.sortable-chosen {
-  background-color: rgba(15, 128, 58, 0.6);
-}
-.layerblock.primary {
-  border-color: rgba(49, 39, 131, 0.1) !important;
-}
-.layerblock.primary.sortable-chosen {
-  background-color: rgba(49, 39, 131, 0.6);
-}
-.layerblock.black {
   border-color: rgba(0, 0, 0, 0.1) !important;
 }
-.layerblock.black.sortable-chosen {
-  background-color: rgba(0, 0, 0, 0.6);
+.layerblock.sortable-chosen {
+  background-color: rgba(49, 39, 131, 0.6);
+  color: #fff;
 }
-
-.layernum {
+.layerblock.sortable-chosen .layernum {
+  background-color: #312783;
+}
+.layerblock .layernum {
   position: absolute;
+  background-color: #000000;
   border-radius: 100%;
   color: #fff;
   left: -14px;
@@ -529,6 +513,7 @@
   transform: translateY(-50%);
   width: 28px;
   height: 28px;
+  padding-bottom: 2px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -743,6 +728,50 @@
   top: 0;
   position: absolute;
   border-radius: 10px;
+}
+
+.colorpickerwrapper {
+  border-radius: 10px;
+  display: flex;
+}
+.colorpickerwrapper__left {
+  padding-left: 8px;
+  padding-top: 8px;
+  background-color: #E8E7F0;
+}
+.colorpickerwrapper__right {
+  padding-left: 8px;
+  background-color: #E8E7F0;
+}
+.colorpickerwrapper__right__inner {
+  background-color: #fff;
+}
+.colorpickerwrapper .form-control {
+  background-color: #F2F3F4;
+}
+.colorpickerwrapper .form-group label {
+  opacity: 0.6;
+}
+.colorpickerwrapper .form-group input:focus ~ div label {
+  opacity: 1;
+}
+
+.colorpicker-input-section {
+  background-color: #E8E7F0;
+  padding: 8px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.colorpicker-radius-section {
+  padding: 0px 0px 0px 4px;
+  background-color: #E8E7F0;
+}
+.colorpicker-radius-section__inner {
+  height: 20px;
+  background-color: #fff;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 #colorpicker-circle {

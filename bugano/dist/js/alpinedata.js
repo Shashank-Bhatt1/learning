@@ -358,29 +358,83 @@ document.addEventListener('alpine:init', () => {
         },
         updateRGBFromHue() {
             this.updateOutputPosition();
-            let [h,s,l] = this.rgbToHSL(this.red, this.green, this.blue);
+            let [h,s,l] = ColorUtils.rgbToHSL(this.red, this.green, this.blue);
             const newHue = this.hue;
-            const [r,g,b] = this.hslToRGB(newHue,s,l);
+            const [r,g,b] = ColorUtils.hslToRGB(newHue,s,l);
             
-            this.red = Math.round(r);
-            this.green = Math.round(g);
-            this.blue = Math.round(b);
+            this.red = r;
+            this.green = g;
+            this.blue = b;
 
-            this.saturation = s = Math.round(s);
-            this.lightness = l = Math.round(l);
+            // this.saturation = s = Math.round(s);
+            // this.lightness = l = Math.round(l);
+            this.saturation = s;
+            this.lightness = l;
+            this.updateColorsInOtherModes('rgb');
             console.log('rgb updated')
             
         },
-        updateHueFromRGB() {
+        updateColorsInOtherModes(mode) {
             //this alternate syntax can be used in place of get/set
             //el._x_model.set(Math.min(255, Math.max(0,  el._x_model.get())));
+            let self = this;
+            if(mode === 'rgb') {
+                const [h,s,l] = ColorUtils.rgbToHSL(this.red, this.green, this.blue);
+                // this.hue = h = Math.round(h);
+                // this.lightness = l = Math.round(l);
+                // this.saturation = s = Math.round(s);
+                this.hue = h;
+                this.lightness = l;
+                this.saturation = s;
+                this.updateOutputPosition();
+                console.log('hsl updated');
+
+                const [c,m,y,k] = ColorUtils.rgbToCMYK(this.red, this.green, this.blue)
+                this.cyan = c;
+                this.magenta = m;
+                this.yellow = y;
+                this.key = k;
+
+                const hex = ColorUtils.rgbToHEX(this.red, this.green, this.blue)
+                this.hex = hex;
+            } else if (mode === 'cmyk') {
+                const [h,s,l] = ColorUtils.cmykToHSL(this.cyan, this.magenta, this.yellow,this.key);
+                this.hue = h;
+                this.lightness = l;
+                this.saturation = s;
+                this.updateOutputPosition();
+                console.log('hsl updated');
+
+                const [r,g,b] = ColorUtils.cmykToRGB(this.cyan, this.magenta, this.yellow,this.key);
+                this.red = r;
+                this.green = g;
+                this.blue = b;
+
+                const hex = ColorUtils.cmykToHEX(this.cyan, this.magenta, this.yellow,this.key);
+                this.hex = hex;
+            } else if (mode === 'hex') {
+                if(this.isHexCode(this.hex)) {
+                    const [h,s,l] = ColorUtils.hexToHSL(this.hex);
+                    this.hue = h;
+                    this.lightness = l;
+                    this.saturation = s;
+                    this.updateOutputPosition();
+                    console.log('hsl updated');
+
+                    const [c,m,y,k] = ColorUtils.hexToCMYK(this.hex);
+                    this.cyan = c;
+                    this.magenta = m;
+                    this.yellow = y;
+                    this.key = k;
+
+                    const [r,g,b] = ColorUtils.hexToRGB(this.hex);
+                    this.red = r;
+                    this.green = g;
+                    this.blue = b;
+                }
+
+            }
             
-            let [h,s,l] = this.rgbToHSL(this.red, this.green, this.blue);
-            this.hue = h = Math.round(h);
-            this.lightness = l = Math.round(l);
-            this.saturation = s = Math.round(s);
-            this.updateOutputPosition();
-            console.log('hue updated')
         }, 
         lastColorId: 8,
         colors: [],
@@ -410,7 +464,6 @@ document.addEventListener('alpine:init', () => {
             this.currentTextColorObj.color = color.color;
             this.currentTextColorObj.id = color.id;
             this.$store.canvas.setLabelColor(color.color);
-            
         },
         _red: 0,
         get red() {
@@ -433,39 +486,57 @@ document.addEventListener('alpine:init', () => {
         set blue(val) {
             this._blue = Math.min(255, Math.max(0, val))
         },
+
+        _cyan: 0.0000,
+        get cyan() {
+            return this._cyan;
+        },
+        set cyan(val) {
+            this._cyan = Math.min(100, Math.max(0, val))
+        },
+        _magenta: 0.0000,
+        get magenta() {
+            return this._magenta;
+        },
+        set magenta(val) {
+            this._magenta = Math.min(100, Math.max(0, val))
+        },
+
+        _yellow: 0.0000,
+        get yellow() {
+            return this._yellow;
+        },
+        set yellow(val) {
+            this._yellow = Math.min(100, Math.max(0, val))
+        },
+
+        _key: 1.0000,
+        get key() {
+            return this._key;
+        },
+        set key(val) {
+            this._key = Math.min(100, Math.max(0, val))
+        },  
+        _hex: '#000000',
+        get hex() {
+            return this._hex;
+        },
+        set hex(val) {
+            this._hex = val;
+        },
+        hexCheck() {
+            this.hex = this.isHexCode(this.hex) ? this.hex : '#000000';
+            this.updateColorsInOtherModes('hex');
+        },
+        isHexCode(hexcode) {
+            return /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hexcode)
+        },
+
         get selectedColor() {
             let color = `rgb(${this.red},${this.green},${this.blue})`;
             this.$store.canvas.setLabelColor(color);
             this.currentTextColorObj = {};
             return color;
-        },
-        rgbToHSL(r,g,b) {
-            r /= 255;
-            g /= 255;
-            b /= 255;
-            const l = Math.max(r, g, b);
-            const s = l - Math.min(r, g, b);
-            const h = s
-                ? l === r
-                ? (g - b) / s
-                : l === g
-                ? 2 + (b - r) / s
-                : 4 + (r - g) / s
-                : 0;
-            return [
-                60 * h < 0 ? 60 * h + 360 : 60 * h,
-                100 * (s ? (l <= 0.5 ? s / (2 * l - s) : s / (2 - (2 * l - s))) : 0),
-                (100 * (2 * l - s)) / 2,
-            ];
-        },
-        hslToRGB(h, s, l) {
-            s /= 100;
-            l /= 100;
-            const k = n => (n + h / 30) % 12;
-            const a = s * Math.min(l, 1 - l);
-            const f = n =>
-              l - a * Math.max(-1, Math.min(k(n) - 3, Math.min(9 - k(n), 1)));
-            return [255 * f(0), 255 * f(8), 255 * f(4)];
         },
         colordatawrapper: {
             //get r,g and b color data from event emitted by nested elements
@@ -474,7 +545,7 @@ document.addEventListener('alpine:init', () => {
                 this.red = event.detail.r;
                 this.green = event.detail.g;
                 this.blue = event.detail.b;
-                this.updateHueFromRGB()
+                this.updateColorsInOtherModes('rgb')
             } 
         }
 
@@ -539,30 +610,11 @@ document.addEventListener('alpine:init', () => {
             const {x, y} = this.getCanvasPointCoordinates(event,canvas)
             const imgData = context.getImageData(x, y, 1, 1);
             let [r, g, b] = imgData.data;
-            const [h, s, l] = this.rgbToHSL(r, g, b);
+            const [h, s, l] = ColorUtils.rgbToHSL(r, g, b);
             this.setCircleBorderColor(l);
             canvas.dispatchEvent(new CustomEvent('color-selected', {
                 bubbles: true,  detail: {r, g, b, h, s, l} 
             }));
-        },
-        rgbToHSL(r,g,b) {
-            r /= 255;
-            g /= 255;
-            b /= 255;
-            const l = Math.max(r, g, b);
-            const s = l - Math.min(r, g, b);
-            const h = s
-                ? l === r
-                ? (g - b) / s
-                : l === g
-                ? 2 + (b - r) / s
-                : 4 + (r - g) / s
-                : 0;
-            return [
-                60 * h < 0 ? 60 * h + 360 : 60 * h,
-                100 * (s ? (l <= 0.5 ? s / (2 * l - s) : s / (2 - (2 * l - s))) : 0),
-                (100 * (2 * l - s)) / 2,
-            ];
         },
         updateCirclePosition(event,canvas,circle) {
             const {x, y} = this.getCanvasPointCoordinates(event,canvas)
@@ -591,8 +643,8 @@ document.addEventListener('alpine:init', () => {
                 }
             },
             ['@color-updated.window'](event) {
-                let [h,s,l] = [event.detail.h,event.detail.s, event.detail.l];
-                let leftpx =  ((h * canvas.width) / 360) + 'px',
+                const [h,s,l] = [event.detail.h,event.detail.s, event.detail.l];
+                const leftpx =  ((h * canvas.width) / 360) + 'px',
                     toppx = ((100- l) * (canvas.height/100)) + 'px';
                 this.setCircleBorderColor(l);
                 //console.log(leftpx, toppx)
