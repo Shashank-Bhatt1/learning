@@ -769,13 +769,13 @@ document.addEventListener('alpine:init', () => {
         },
         savedFontFamily: Alpine.$persist(''),
         savedFontColor: Alpine.$persist(''),
-        savedFontSize: Alpine.$persist(''),
+        savedFontScale: Alpine.$persist(''),
         clearFontStyle() {
             const canvas = window.__canvas;
             const currentObj = canvas.getActiveObject();
             currentObj.fill = 'rgb(0,0,0)';
             currentObj.fontFamily = 'Times New Roman';
-            currentObj.fontSize = Math.max(parseInt(canvas.width/25), 22);
+            currentObj.scale(1);
             canvas.renderAll();
             
         },
@@ -787,7 +787,9 @@ document.addEventListener('alpine:init', () => {
                 if(currentObj.name === 'label') {
                     currentObj.fontFamily = self.savedFontFamily || 'Times New Roman';
                     currentObj.fill = self.savedFontColor || 'rgb(0,0,0)';
-                    currentObj.fontSize = self.savedFontSize || Math.max(parseInt(canvas.width/25), 22);
+                    currentObj.scaleX = self.savedFontScale.scaleX || 1;
+                    currentObj.scaleY = self.savedFontScale.scaleY || 1;
+                    
                 }
             })
             canvas.renderAll();
@@ -795,10 +797,9 @@ document.addEventListener('alpine:init', () => {
         saveFontStyle() {
             const canvas = window.__canvas;
             const currentObj = canvas.getActiveObject();
-            console.log(currentObj);
             this.savedFontFamily =  currentObj.fontFamily || '';
             this.savedFontColor = currentObj.fill || '';
-            this.savedFontSize = currentObj.fontSize || '';
+            this.savedFontScale = currentObj.getObjectScaling() || 1;
             canvas.renderAll();
         },
         saveCanvasAsImage() {
