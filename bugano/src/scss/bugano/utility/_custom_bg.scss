@@ -11,5 +11,6 @@
 @include bg-variant(".bg-yellow-darker", $yellow-800);
 @include bg-variant(".bg-yellow-light", $yellow-200);
 @include bg-variant(".bg-yellow-lighter", $yellow-100);
+@include bg-variant(".bg-success-lighter", $success-lighter);
 
 

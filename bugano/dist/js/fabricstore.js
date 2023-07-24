@@ -55,6 +55,7 @@ document.addEventListener('alpine:init', () => {
            
         },
         isDeletebtnDisabled: true,
+        isSavebtnDisabled: true,
         isInside3dView: false,
         enable3d() {
             const self = this, canvas =  window.__canvas;
@@ -299,15 +300,30 @@ document.addEventListener('alpine:init', () => {
                 const currentObj = options.target;
                 const indexOfLayerToRemove = self.layers.findIndex(layer => layer.id === currentObj.id);
                 (indexOfLayerToRemove >= 0) && self.layers.splice(indexOfLayerToRemove,1)
-
             })
+
+            canvas.on('object:selected',function(options) {
+                console.log(options.target)
+            })
+
         },
         objectSelectionEvents(canvas) {
             const self = this;
-            canvas.on('selection:created',function(options) {
+            canvas.on('selection:created', function(options) {
                 self.isDeletebtnDisabled = false;
+                
+                if(options.selected[0].name === 'label') {
+                    self.isSavebtnDisabled = false;
+                }
+                
+            }).on('selection:updated', function(options) {
+                    self.isDeletebtnDisabled = false;
+                    if(options.selected[0].name === 'label') {
+                        self.isSavebtnDisabled = false;
+                    }
             }).on('selection:cleared',function(options) {
                 self.isDeletebtnDisabled = true;
+                self.isSavebtnDisabled = true;
             })
         },
         objectModifyEvents(canvas,img) {
@@ -676,18 +692,15 @@ document.addEventListener('alpine:init', () => {
             const activeObj =  canvas.getActiveObject(),
                 newScale = ((activeObj?.scaleX) - (activeObj?.scaleX/10));
             if(activeObj.getScaledWidth() >= 50) {
-                
                 // activeObj.set({
                 //     originX: 'left',
                 //     originY: 'bottom',
                    
                 // })
-                activeObj.scale(newScale)
-                
+                activeObj.scale(newScale);
             }
             canvas.fire('object:modified', {target: activeObj});
             canvas.renderAll();
-           
         },
 
         setHorizontalCenter() {
@@ -704,7 +717,6 @@ document.addEventListener('alpine:init', () => {
             if(activeObj) {
                 window.__canvas.viewportCenterObjectV(activeObj)
             }
-
             //activeObj?.centerV();
         },
         setAngle(angle) {
@@ -733,7 +745,6 @@ document.addEventListener('alpine:init', () => {
                     fill:color
                 });
                 canvas.renderAll()
-               
             }
         },
         setLabelFont(font) {
@@ -748,7 +759,6 @@ document.addEventListener('alpine:init', () => {
                 canvas.renderAll()
             }
         },
-
         saveCanvasData(canvas) {
             console.log(JSON.stringify(canvas.toJSON()))
             this.canvasData = JSON.stringify(canvas.toJSON());
@@ -756,6 +766,40 @@ document.addEventListener('alpine:init', () => {
         },
         restoreCanvasData(canvas) {
             canvas.loadFromJSON(this.canvasData);
+        },
+        savedFontFamily: Alpine.$persist(''),
+        savedFontColor: Alpine.$persist(''),
+        savedFontSize: Alpine.$persist(''),
+        clearFontStyle() {
+            const canvas = window.__canvas;
+            const currentObj = canvas.getActiveObject();
+            currentObj.fill = 'rgb(0,0,0)';
+            currentObj.fontFamily = 'Times New Roman';
+            currentObj.fontSize = Math.max(parseInt(canvas.width/25), 22);
+            canvas.renderAll();
+            
+        },
+        applyFontStyle() {
+            const canvas = window.__canvas, self = this;
+            const currentObjs = canvas.getActiveObjects();
+
+            currentObjs.forEach(function(currentObj) {
+                if(currentObj.name === 'label') {
+                    currentObj.fontFamily = self.savedFontFamily || 'Times New Roman';
+                    currentObj.fill = self.savedFontColor || 'rgb(0,0,0)';
+                    currentObj.fontSize = self.savedFontSize || Math.max(parseInt(canvas.width/25), 22);
+                }
+            })
+            canvas.renderAll();
+        },
+        saveFontStyle() {
+            const canvas = window.__canvas;
+            const currentObj = canvas.getActiveObject();
+            console.log(currentObj);
+            this.savedFontFamily =  currentObj.fontFamily || '';
+            this.savedFontColor = currentObj.fill || '';
+            this.savedFontSize = currentObj.fontSize || '';
+            canvas.renderAll();
         },
         saveCanvasAsImage() {
             

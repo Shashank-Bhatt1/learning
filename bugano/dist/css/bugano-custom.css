@@ -286,16 +286,16 @@
 }
 
 .btn-outline-success.btn-minimal i {
-  color: #0F803A !important;
+  color: #2ECC71 !important;
 }
 .btn-outline-success.btn-minimal:hover i {
-  color: #fff !important;
+  color: #000 !important;
 }
 .btn-outline-success.add-to-collection, .btn-outline-success.remove-from-collection {
-  color: #0F803A !important;
+  color: #2ECC71 !important;
 }
 .btn-outline-success.add-to-collection:hover, .btn-outline-success.remove-from-collection:hover {
-  color: #fff !important;
+  color: #000 !important;
 }
 
 .btn-outline-info.btn-minimal i {
@@ -731,10 +731,10 @@
 }
 
 .colorpickerwrapper {
-  border-radius: 10px;
   display: flex;
 }
 .colorpickerwrapper__left {
+  border-radius: 10px 0px 0px 10px;
   padding-left: 8px;
   padding-top: 8px;
   background-color: #E8E7F0;
@@ -784,6 +784,28 @@
   border-radius: 100%;
   border: 2px solid white;
   transform: translate(-50%, -50%);
+}
+
+.block-radius__left__inverted {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  right: 100%;
+  bottom: 0px;
+  border-bottom-right-radius: 80px;
+  background-color: #EAE9F2;
+  box-shadow: 5px 0px 0 0 #fff;
+}
+
+.block-radius__right__inverted {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  left: 100%;
+  bottom: 0px;
+  border-bottom-left-radius: 80px;
+  background-color: #EAE9F2;
+  box-shadow: -5px 0px 0 0 #fff;
 }
 
 @media (max-width: 991.98px) {
@@ -1163,6 +1185,11 @@
 .editor-interface__scroll.bg-custom-gradient {
   background-image: linear-gradient(180deg, #EAE9F2 0%, rgba(234, 233, 242, 0) 165px);
   background-position: top left;
+}
+.editor-interface__scroll.bg-custom-gradient-bottom {
+  background-image: linear-gradient(180deg, #EAE9F2 0%, rgba(234, 233, 242, 0) 165px), linear-gradient(0deg, #EAE9F2 0%, rgba(234, 233, 242, 0) 165px);
+  background-position: top left, bottom left;
+  padding-bottom: 0;
 }
 @media (max-width: 991.98px) {
   .editor-interface__scroll {
@@ -1654,6 +1681,16 @@ a.bg-yellow-lighter:hover, a.bg-yellow-lighter:focus,
 button.bg-yellow-lighter:hover,
 button.bg-yellow-lighter:focus {
   background-color: #ffe79a !important;
+}
+
+.bg-success-lighter {
+  background-color: rgba(46, 204, 113, 0.1) !important;
+}
+
+a.bg-success-lighter:hover, a.bg-success-lighter:focus,
+button.bg-success-lighter:hover,
+button.bg-success-lighter:focus {
+  background-color: rgba(37, 162, 90, 0.1) !important;
 }
 
 .text-yellow {

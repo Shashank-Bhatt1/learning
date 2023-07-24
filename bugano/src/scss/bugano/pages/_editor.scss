@@ -192,6 +192,12 @@ $logo-section-height: 30px;
             background-image: linear-gradient(180deg, #EAE9F2 0%, #EAE9F200 165px);
             background-position: top left;
         }
+
+        &.bg-custom-gradient-bottom {
+            background-image: linear-gradient(180deg, #EAE9F2 0%, #EAE9F200 165px), linear-gradient(0deg, #EAE9F2 0%, #EAE9F200 165px);
+            background-position: top left, bottom left;
+            padding-bottom: 0;
+        }
         
        
         @include media-breakpoint-down(lg) {

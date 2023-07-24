@@ -294,14 +294,14 @@ document.addEventListener('alpine:init', () => {
             }
         },
         addUploadedFonts() {
-            if (this.uploadedFonts.length === 0) {
+            if (this.uploadedFontName && this.uploadedFonts.length === 0) {
                 this.uploadedFonts.push({
                     id: this.uploadedFontId,
                     name: this.uploadedFontName,
                     label: this.uploadedFontLabel
                 });
                 this.uploadedFontId++;
-            } else if (this.uploadedFonts.length && !(this.uploadedFonts.some(obj => obj.name === this.uploadedFontName))) {
+            } else if (this.uploadedFontName && this.uploadedFonts.length && !(this.uploadedFonts.some(obj => obj.name === this.uploadedFontName))) {
                 this.uploadedFonts.push({
                     id: this.uploadedFontId,
                     name: this.uploadedFontName,
@@ -356,6 +356,7 @@ document.addEventListener('alpine:init', () => {
         init() {
            
         },
+        
         updateRGBFromHue() {
             this.updateOutputPosition();
             let [h,s,l] = ColorUtils.rgbToHSL(this.red, this.green, this.blue);

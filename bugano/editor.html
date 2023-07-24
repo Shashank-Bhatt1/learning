@@ -229,7 +229,7 @@
                                             </li>
                                         </ul>
                                         
-                                        <div class="block-content block-content-full tab-content editor-interface__scroll bg-custom-gradient">
+                                        <div class="block-content block-content-full tab-content editor-interface__scroll bg-custom-gradient" :class="activeTab === 'label' ? 'bg-custom-gradient-bottom':''">
                                             <div class="tab-pane position-relative" id="canvas-background" role="tabpanel" aria-labelledby="canvas-background-tab"  x-data="backgrounds"
                                                 :class="activeTab === 'background'? 'active' : ''">
                                                 <div :class="isUploadBlockVisible ? 'd-lg-none': 'd-block'">
@@ -270,6 +270,7 @@
                                                         </div>
                                                         <div class="fadetowhite"></div>
                                                     </div>
+                                                   
                                                     <div class="btn-group  upload-btn-group-sticky d-lg-none" role="group" aria-label="upload background" @click="showUploadBlock()">
                                                         <button type="button" class="btn btn-primary-dark upload-btn flex-grow-0">
                                                             <i class="bugano-Icon-material-file-upload fs-4"></i>
@@ -618,7 +619,7 @@
                                                             </div>
                                                             <div class="colorpickerwrapper__right ">
                                                                 <div class="colorpickerwrapper__right__inner">
-                                                                    <div class="d-flex align-items-center mb-2">
+                                                                    <div class="d-none align-items-center mb-2">
                                                                         <div class="me-2">
                                                                             <a class="btn editor-interface__square" :style="{backgroundColor: selectedColor,
                                                                                 border: (lightness > 90 ? '1px solid': 'none')}"></a>
@@ -821,6 +822,28 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <div class="block position-relative mb-0 mt-3 ">
+                                                    <div class="block-content block-content-full p-3">
+                                                        <div class="row g-2">
+                                                            <div class="col-12 col-sm-2">
+                                                                <button type="button" class="btn btn-danger w-100" @click="$store.canvas.clearFontStyle()"
+                                                                    :disabled="$store.canvas.isSavebtnDisabled">Clear</button>
+                                                            </div>
+                                                            <div class="col-12 col-sm-6">
+                                                                <button type="button" data-bs-toggle="modal" data-bs-target="#fontApplyModal" 
+                                                                    class="btn btn-primary w-100" @click="$store.canvas.applyFontStyle()"
+                                                                    :disabled="$store.canvas.isSavebtnDisabled">Apply Saved Font</button>
+                                                            </div>
+                                                            <div class="col-12 col-sm-4">
+                                                                <button type="button" data-bs-toggle="modal" data-bs-target="#fontSaveModal" @click="$store.canvas.saveFontStyle()"
+                                                                    :disabled="$store.canvas.isSavebtnDisabled" class="btn bg-success-lighter text-success w-100">Save Font</button>
+                                                            </div>
+                                                        </div>
+
+                                                        <span class="block-radius__left__inverted"></span>
+                                                        <span class="block-radius__right__inverted"></span>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="tab-pane position-relative" id="layering" role="tabpanel" aria-labelledby="layering-tab"
                                                 :class="activeTab === 'layer'? 'active' : ''">
@@ -954,6 +977,49 @@
                                                     </div>
                                                     <div class="col">
                                                         <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal"  @click="$store.canvas.removeObject()">Delete</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade"  id="fontSaveModal" aria-hidden="true" x-data>
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="block block-rounded shadow-none mb-0">
+                                        <div class="block-content p-0">
+                                            <img src="images/font-save.png" class="img-fluid" width="530" height="310" alt="font save" />
+                                        </div>
+                                        <div class="block-content p-4">
+                                            <div class="text=center">
+                                                <p class="text-primary mb-4 fs-5 lh-sm text-center">Your <a class="text-success fw-bold">Font Styling</a> has been saved.<br/> 
+                                                    You can now start applying it to any other text!</p>
+                                                <div class="row gx-2">
+                                                    <div class="col">
+                                                        <button type="button" data-bs-dismiss="modal" class="btn btn-outline-primary w-100">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade"  id="fontApplyModal" aria-hidden="true" x-data>
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="block block-rounded shadow-none mb-0">
+                                        <div class="block-content p-0">
+                                            <img src="images/font-apply.png" class="img-fluid" width="530" height="310" alt="font save" />
+                                        </div>
+                                        <div class="block-content p-4">
+                                            <div class="text=center">
+                                                <p class="text-primary mb-4 fs-5 lh-sm text-center">Your <a class="text-success fw-bold">Font Styling</a> has been applied!</p>
+                                                <div class="row gx-2">
+                                                    <div class="col">
+                                                        <button type="button" data-bs-dismiss="modal" class="btn btn-outline-primary w-100">Close</button>
                                                     </div>
                                                 </div>
                                             </div>

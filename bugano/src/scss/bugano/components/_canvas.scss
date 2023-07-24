@@ -52,10 +52,10 @@
 }
 
 .colorpickerwrapper {
-    border-radius: 10px;
     display: flex;
 
     &__left {
+        border-radius: 10px 0px 0px 10px;
         padding-left: 8px;
         padding-top: 8px;
         background-color: #E8E7F0;
@@ -81,9 +81,9 @@
             opacity: 1;
         }
     }
+}
 
    
-}
 .colorpicker-input-section {
     background-color: #E8E7F0;
     padding: 8px;
@@ -115,5 +115,25 @@
     transform: translate(-50%, -50%);
 }
     
+.block-radius__left__inverted {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    right: 100%;
+    bottom: 0px;
+    border-bottom-right-radius: 80px;
+    background-color: #EAE9F2;
+    box-shadow: 5px 0px 0 0 #fff;
+}
 
+.block-radius__right__inverted  {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    left: 100%;
+    bottom: 0px;
+    border-bottom-left-radius: 80px;
+    background-color: #EAE9F2;
+    box-shadow: -5px 0px 0 0 #fff;
+}
     
