@@ -122,7 +122,62 @@ document.addEventListener('alpine:init', () => {
 
             })
 
-        },    
+        },
+        toPDF() {
+            const self = this, canvas =  window.__canvas;
+            const product = this.getSelectedProductObj();
+            window.__canvas.clone(function(clonedPDFCanvas) {
+                fabric.Image.fromURL(product.tagImageUrl,function(img) {
+                    self.fitImageInCanvas(img,canvas);
+                    
+                    self.preventInteraction(img)
+                    img.set({zIndex: 1000})
+                    clonedPDFCanvas.add(img)
+
+
+                    fabric.Image.fromURL(product.innerImageStrokeOnlyUrl,function(innerstrokeimg) {
+                        self.fitImageInCanvas(innerstrokeimg, canvas);
+                        self.setCenter(innerstrokeimg);
+                        self.preventInteraction(innerstrokeimg)
+                        
+                        innerstrokeimg.set({excludeFromExport: true, zIndex: -1})
+                        clonedPDFCanvas.add(innerstrokeimg);
+
+                        fabric.Image.fromURL(product.overlapImageUrl,function(overlapimg) {
+                            self.fitImageInCanvas(overlapimg, canvas);
+                            self.setCenter(overlapimg);
+                            self.preventInteraction(overlapimg)
+                            overlapimg.set({zIndex: 1000})
+                            clonedPDFCanvas.add(overlapimg);
+                            
+                            const url = clonedPDFCanvas.toDataURL({
+                                format: 'png',
+                                enableRetinaScaling: true,
+                                multiplier: 1.4
+                            });
+
+                            const { jsPDF } = window.jspdf;
+                            var pdf = new jsPDF({
+                                orientation: 'landscape',
+                                unit: 'px',
+                                format: [935, 935],
+
+                                
+                            });
+                            console.log(pdf.internal.pageSize.getWidth())
+
+                            pdf.addImage(url, 'JPEG', 23, 0, 888, 888);
+                            window.open(pdf.output('bloburl'), '_blank');
+                            //pdf.save("download.pdf");
+                            document.getElementById('canvasConvertedPDFImage').src= url
+                        })
+                    })
+                    
+
+                })
+                
+            })
+        },  
         disable3d() {
             this.isInside3dView = false;
         },

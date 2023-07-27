@@ -99,6 +99,9 @@
                                                                     <button class="btn editor-interface__square bg-gray me-2"  @click="$store.canvas.setFullScreenCanvas()">
                                                                         <i class="bugano-Icon-awesome-expand-arrows-alt fa-md"></i>
                                                                     </button>
+                                                                    <button class="btn editor-interface__square bg-gray me-2" @click="$store.canvas.toPDF()">
+                                                                        <i class="fa fa-file-pdf"></i>
+                                                                    </button>
                                                                     <button class="btn editor-interface__square bg-white ms-auto ms-lg-3" @click="$store.canvas.enable3d()">
                                                                         <span class="fw-bold" >3D</span>
                                                                     </button>
@@ -960,6 +963,7 @@
                         </div>
                         <div>
                             <img id="canvasConvertedImage" src="" alt />
+                            <img id="canvasConvertedPDFImage" src="" alt />
                         </div>
                         <div class="modal fade"  id="objectDeleteConfirmModal" aria-hidden="true" x-data>
                             <div class="modal-dialog modal-dialog-centered">
@@ -1044,6 +1048,7 @@
         
         <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
         <script src="dist/js/color-utilities.js"></script>
+        <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
         <script src="dist/js/alpinedata.js"></script>
         
@@ -1063,7 +1068,6 @@
                 handle: '.layerblock',
                 dataIdAttr: 'data-layer-id',
                 onUpdate(event) {
-                    
                     const objSortArray = sortable.toArray().filter(item => item !== 'ignore');
                     window.dispatchEvent(new CustomEvent('sort-objects-from-layer', {
                         detail: {
