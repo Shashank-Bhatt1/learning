@@ -5,12 +5,12 @@ document.addEventListener('alpine:init', () => {
             {    
                 id: 2,
                 name: 'gr-5', 
-                productImageUrl: 'images/product-gr5.svg', 
-                overlapImageUrl: 'images/product-gr5-overlap.svg', 
-                innerImageUrl: 'images/product-gr5-inner.svg',
-                innerImageStrokeOnlyUrl: 'images/product-gr5-inner-strokeonly.svg', 
-                tagImageUrl: 'images/gr5-tag.svg',
-                tagCloneImageUrl: 'images/gr5-tag-cloned.svg',
+                productImageUrl: 'images/gr-5/product-gr5.svg', 
+                overlapImageUrl: 'images/gr-5/product-gr5-overlap.svg',
+                innerImageUrl: 'images/gr-5/product-gr5-inner.svg',
+                innerImageStrokeOnlyUrl: 'images/gr-5/product-gr5-inner-strokeonly.svg', 
+                tagImageUrl: 'images/gr-5/gr5-tag.svg',
+                tagCloneImageUrl: 'images/gr-5/gr5-tag-cloned.svg',
                 tagImageLeft: 4.12,
                 tagImageTop: 37.25,
                 tagImageWidth: 32.06,
@@ -18,12 +18,13 @@ document.addEventListener('alpine:init', () => {
            },
             {    id: 0,
                  name: 'gr-6', 
-                 productImageUrl: 'images/product-gr6.svg', 
-                 overlapImageUrl: 'images/product-gr6-overlap.svg', 
-                 innerImageUrl: 'images/product-gr6-inner.svg',
-                 innerImageStrokeOnlyUrl: 'images/product-gr6-inner-strokeonly.svg', 
-                 tagImageUrl: 'images/gr6-tag.svg',
-                 tagCloneImageUrl: 'images/gr6-tag-cloned.svg',
+                 productImageUrl: 'images/gr-6/product-gr6.svg', 
+                 overlapImageUrl: 'images/gr-6/product-gr6-overlap.svg',
+                 overlapStickerImageUrl: 'images/gr-6/product-gr6-overlap-sticker.svg',
+                 innerImageUrl: 'images/gr-6/product-gr6-inner.svg',
+                 innerImageStrokeOnlyUrl: 'images/gr-6/product-gr6-inner-strokeonly.svg', 
+                 tagImageUrl: 'images/gr-6/gr6-tag.svg',
+                 tagCloneImageUrl: 'images/gr-6/gr6-tag-cloned.svg',
                  tagImageLeft: 6.20,
                  tagImageTop: 38.96,
                  tagImageWidth: 30.47,
@@ -33,12 +34,12 @@ document.addEventListener('alpine:init', () => {
             },
             {   id: 1, 
                 name: 'gr-7', 
-                productImageUrl: 'images/product-gr7.svg', 
-                overlapImageUrl: 'images/product-gr7-overlap.svg', 
-                innerImageUrl: 'images/product-gr7-inner.svg',
-                innerImageStrokeOnlyUrl: 'images/product-gr7-inner-strokeonly.svg', 
-                tagImageUrl: 'images/gr7-tag.svg',
-                tagCloneImageUrl: 'images/gr7-tag-cloned.svg',
+                productImageUrl: 'images/gr-7/product-gr7.svg', 
+                overlapImageUrl: 'images/gr-7/product-gr7-overlap.svg', 
+                innerImageUrl: 'images/gr-7/product-gr7-inner.svg',
+                innerImageStrokeOnlyUrl: 'images/gr-7/product-gr7-inner-strokeonly.svg', 
+                tagImageUrl: 'images/gr-7/gr7-tag.svg',
+                tagCloneImageUrl: 'images/gr-7/gr7-tag-cloned.svg',
                 tagImageLeft: 5.24,
                 tagImageTop: 50.32,
                 tagImageWidth: 26.71,
@@ -132,46 +133,67 @@ document.addEventListener('alpine:init', () => {
                     
                     self.preventInteraction(img)
                     img.set({zIndex: 1000})
-                    clonedPDFCanvas.add(img)
+                    clonedPDFCanvas.add(img)                        
+
+                    fabric.Image.fromURL(product.overlapImageUrl,function(overlapimg) {
+                        self.fitImageInCanvas(overlapimg, canvas);
+                        self.setCenter(overlapimg);
+                        self.preventInteraction(overlapimg)
+                        overlapimg.set({zIndex: 1000})
+                        clonedPDFCanvas.add(overlapimg);
 
 
-                    fabric.Image.fromURL(product.innerImageStrokeOnlyUrl,function(innerstrokeimg) {
-                        self.fitImageInCanvas(innerstrokeimg, canvas);
-                        self.setCenter(innerstrokeimg);
-                        self.preventInteraction(innerstrokeimg)
-                        
-                        innerstrokeimg.set({excludeFromExport: true, zIndex: -1})
-                        clonedPDFCanvas.add(innerstrokeimg);
-
-                        fabric.Image.fromURL(product.overlapImageUrl,function(overlapimg) {
-                            self.fitImageInCanvas(overlapimg, canvas);
-                            self.setCenter(overlapimg);
-                            self.preventInteraction(overlapimg)
-                            overlapimg.set({zIndex: 1000})
-                            clonedPDFCanvas.add(overlapimg);
+                        fabric.Image.fromURL(product.innerImageStrokeOnlyUrl,function(innerstrokeimg) {
+                            self.fitImageInCanvas(innerstrokeimg, canvas);
+                            self.setCenter(innerstrokeimg);
+                            self.preventInteraction(innerstrokeimg)
                             
-                            const url = clonedPDFCanvas.toDataURL({
-                                format: 'png',
-                                enableRetinaScaling: true,
-                                multiplier: 1.4
-                            });
+                            innerstrokeimg.set({excludeFromExport: true, zIndex: 1001})
+                            clonedPDFCanvas.add(innerstrokeimg);                        
 
-                            const { jsPDF } = window.jspdf;
-                            var pdf = new jsPDF({
-                                orientation: 'landscape',
-                                unit: 'px',
-                                format: [935, 935],
+                            fabric.Image.fromURL(product.overlapStickerImageUrl,function(overlapStickerImg) {
+                                self.fitImageInCanvas(overlapStickerImg, clonedPDFCanvas);
+                                self.setCenter(overlapStickerImg);
+                                self.preventInteraction(overlapStickerImg)
+                                overlapStickerImg.set({zIndex: 1002})
+                                clonedPDFCanvas.add(overlapStickerImg)
+
+
+                               
+                                clonedPDFCanvas.renderAll()
+
+                                const url = clonedPDFCanvas.toDataURL({
+                                    format: 'png',
+                                    enableRetinaScaling: true,
+                                    multiplier: 1.4
+                                });
+
+                                const { jsPDF } = window.jspdf;
+                                var pdf = new jsPDF({
+                                    orientation: 'landscape',
+                                    unit: 'px',
+                                    format: [935, 875],
+                                });
 
                                 
-                            });
-                            console.log(pdf.internal.pageSize.getWidth())
+                                pdf.setFillColor(241,241,242);
+                                pdf.rect(0, 0, 935, 935, 'F');
+                                    
+                                console.log(pdf.internal.pageSize.getWidth())
 
-                            pdf.addImage(url, 'JPEG', 23, 0, 888, 888);
-                            window.open(pdf.output('bloburl'), '_blank');
-                            //pdf.save("download.pdf");
-                            document.getElementById('canvasConvertedPDFImage').src= url
+                                pdf.addImage(url, 'JPEG', 23, 0, 888, 888);
+                                
+                                window.open(pdf.output('bloburl'), '_blank');
+                                //pdf.save("download.pdf");
+                                document.getElementById('canvasConvertedPDFImage').src= url
+
+
+                            })
                         })
+                        
+                        
                     })
+                
                     
 
                 })
@@ -261,6 +283,7 @@ document.addEventListener('alpine:init', () => {
                 img.set({excludeFromExport: true, zIndex: 1000})
                 canvas.add(img)
             })
+            
         },
         removeObjectControls(obj) {
             obj.setControlsVisibility({
